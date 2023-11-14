@@ -3,15 +3,11 @@
 namespace App\Service;
 
 use App\Entity\Book;
-use App\Entity\BookCategory;
 use App\Exception\BookCategoryNotFoundException;
-use App\Model\BookCategoryListItem;
-use App\Model\BookCategoryListResponse;
 use App\Model\BookListItem;
 use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
-use Doctrine\Common\Collections\Criteria;
 
 class BookService
 {
@@ -25,7 +21,7 @@ class BookService
     {
         $category = $this->bookCategoryRepository->find($categoryId);
 
-        if (! $category) {
+        if (!$category) {
             throw new BookCategoryNotFoundException();
         }
 
@@ -42,7 +38,7 @@ class BookService
             slug: $book->getSlug(),
             image: $book->getImage(),
             authors: $book->getAuthors(),
-            publicationDate: $book->getPublicationDate()->getTimestamp()
+            publicationDate: $book->getPublicationDate()->format(\DateTimeInterface::ATOM)
         );
     }
 }

@@ -2,12 +2,10 @@
 
 namespace App\Model;
 
-use DateTimeInterface;
-
 class BookListItem
 {
     public function __construct(
-        private int    $id,
+        private int $id,
         private string $title,
         private string $slug,
         private string $image,
@@ -65,11 +63,17 @@ class BookListItem
         return $this;
     }
 
+    /**
+     * @return string[]
+     */
     public function getAuthors(): array
     {
         return $this->authors;
     }
 
+    /**
+     * @param array<string> $authors
+     */
     public function setAuthors(array $authors): static
     {
         $this->authors = $authors;

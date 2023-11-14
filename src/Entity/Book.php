@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,11 +24,12 @@ class Book
     #[ORM\Column(length: 125)]
     private ?string $image = null;
 
+    /** @var array<string> */
     #[ORM\Column(type: 'simple_array')]
     private array $authors = [];
 
     #[ORM\Column(type: 'date')]
-    private DateTimeInterface $publicationDate;
+    private \DateTimeInterface $publicationDate;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $meap;
@@ -72,23 +72,29 @@ class Book
         return $this;
     }
 
-    public function getPublicationDate(): DateTimeInterface
+    public function getPublicationDate(): \DateTimeInterface
     {
         return $this->publicationDate;
     }
 
-    public function setPublicationDate(DateTimeInterface $publicationDate): static
+    public function setPublicationDate(\DateTimeInterface $publicationDate): static
     {
         $this->publicationDate = $publicationDate;
 
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getAuthors(): array
     {
         return $this->authors;
     }
 
+    /**
+     * @param array<string> $authors
+     */
     public function setAuthors(array $authors): static
     {
         $this->authors = $authors;
@@ -113,9 +119,11 @@ class Book
         return $this->image;
     }
 
-    public function setImage(?string $image): void
+    public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
     }
 
     public function getId(): ?int

@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
+use App\Model\BookListResponse;
 use App\Service\BookService;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Model\BookCategoryListResponse;
 
 class BookController extends AbstractController
 {
@@ -20,7 +20,8 @@ class BookController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Return book by category id",
-     *     @Model(type=BookCategoryListResponse::class)
+     *
+     *     @Model(type=BookListResponse::class)
      * )
      */
     #[Route(path: '/api/v1/books/category/{id}', methods: 'GET|OPTIONS')]
