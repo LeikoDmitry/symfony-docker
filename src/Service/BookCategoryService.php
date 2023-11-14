@@ -20,12 +20,12 @@ class BookCategoryService
 
         $items = array_map(callback: function (BookCategory $bookCategory) {
             return new BookCategoryListItem(
-                $bookCategory->getId(),
-                $bookCategory->getTitle(),
-                $bookCategory->getSlug()
+                id: $bookCategory->getId(),
+                title: $bookCategory->getTitle(),
+                slug: $bookCategory->getSlug()
             );
         }, array: $categories);
 
-        return new BookCategoryListResponse($items);
+        return new BookCategoryListResponse(items: $items);
     }
 }

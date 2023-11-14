@@ -30,3 +30,7 @@ services:
     ports:
       - "5432:5432"
 ###< doctrine/doctrine-bundle ###
+
+  test-database:
+    ports:
+      - "5433:5432"
