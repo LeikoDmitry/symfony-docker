@@ -2,12 +2,12 @@
 
 namespace App\Model;
 
-class BookCategoryListItem
+readonly class BookCategoryListItem
 {
     public function __construct(
-        readonly int $id,
-        readonly string $title,
-        readonly string $slug
+        public int    $id,
+        public string $title,
+        public string $slug
     ) {
     }
 

@@ -2,17 +2,17 @@
 
 namespace App\Model;
 
-readonly class BookCategoryListResponse
+readonly class BookListResponse
 {
     /**
-     * @param BookCategoryListItem[] $items
+     * @param BookListItem[] $items
      */
     public function __construct(private array $items)
     {
     }
 
     /**
-     * @return BookCategoryListItem[]
+     * @return BookListItem[]
      */
     public function getItems(): array
     {
