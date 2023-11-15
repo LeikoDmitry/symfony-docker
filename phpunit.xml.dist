@@ -17,6 +17,7 @@
   </testsuites>
   <coverage/>
   <extensions>
+      <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
     <!-- it begins a database transaction before every testcase and rolls it back after
              the test finished, so tests can manipulate the database without affecting other tests -->
     <!--<extension class="\DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension"/> -->
