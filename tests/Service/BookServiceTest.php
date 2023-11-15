@@ -11,29 +11,27 @@ use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
 use App\Service\BookService;
 use App\Tests\AbstractTestCase;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\Exception;
 
 class BookServiceTest extends AbstractTestCase
 {
-
     /**
      * @throws Exception
      */
     public function testFindBooksByCategoryNotFound(): void
-	{
+    {
         $bookRepository = $this->createMock(BookRepository::class);
         $bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
         $bookCategoryRepository->expects($this->once())
             ->method('find')
             ->with(100)
-            ->willThrowException(new BookCategoryNotFoundException());
+            ->willReturn(null);
 
         $this->expectException(BookCategoryNotFoundException::class);
 
         (new BookService($bookRepository, $bookCategoryRepository))->findBooksByCategory(100);
-	}
+    }
 
     /**
      * @throws Exception
@@ -47,7 +45,7 @@ class BookServiceTest extends AbstractTestCase
             ->setCategories(new ArrayCollection(['android']))
             ->setAuthors(['lorem'])
             ->setImage('default.png')
-            ->setPublicationDate(new DateTime('2023-12-12')
+            ->setPublicationDate(new \DateTime('2023-12-12')
             );
         $this->setEntityId(entity: $book, value: 100);
 

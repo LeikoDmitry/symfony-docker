@@ -23,6 +23,11 @@ class BookController extends AbstractController
      *
      *     @Model(type=BookListResponse::class)
      * )
+     *
+     * @OA\Response(
+     *      response=404,
+     *      description="Book category not found"
+     *  )
      */
     #[Route(path: '/api/v1/books/category/{id}', methods: 'GET|OPTIONS')]
     public function booksByCategory(int $id): Response

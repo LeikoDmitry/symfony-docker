@@ -5,7 +5,6 @@ namespace App\Tests\Repository;
 use App\Entity\Book;
 use App\Entity\BookCategory;
 use App\Repository\BookRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -41,7 +40,7 @@ class BookRepositoryTest extends KernelTestCase
     private function createBook(string $name, BookCategory $bookCategory): Book
     {
         return (new Book())
-            ->setPublicationDate(new DateTime())
+            ->setPublicationDate(new \DateTime())
             ->setAuthors(['author'])
             ->setMeap(false)
             ->setSlug($name)
@@ -50,9 +49,9 @@ class BookRepositoryTest extends KernelTestCase
             ->setCategories(new ArrayCollection([$bookCategory]));
     }
 
-    protected function getRepositoryForEntity(string $entityClass): mixed
+    protected function getRepositoryForEntity(string $entityClass): ?object
     {
-        return $this->entityManager->getRepository($entityClass);
+        return $this->entityManager->getRepository($entityClass); /* @phpstan-ignore-line */
     }
 
     protected function tearDown(): void
