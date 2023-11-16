@@ -4,14 +4,16 @@ namespace App\Tests\Service\ExceptionHandler;
 
 use App\Service\ExceptionHandler\ExceptionMappingResolver;
 use App\Tests\AbstractTestCase;
+use InvalidArgumentException;
 use OutOfBoundsException;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 
 class ExceptionMappingResolverTest extends AbstractTestCase
 {
     public function testResolveThrowsExceptionOnEmptyCode(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         new ExceptionMappingResolver(mappings: ['testClass' => ['hidden' => false]]); /* @phpstan-ignore-line */
     }
@@ -20,13 +22,13 @@ class ExceptionMappingResolverTest extends AbstractTestCase
     {
         $resolver = new ExceptionMappingResolver(mappings: []);
 
-        $this->assertNull($resolver->resolve(throwableClass: \RuntimeException::class));
+        $this->assertNull($resolver->resolve(throwableClass: RuntimeException::class));
     }
 
     public function testResolveClassItself(): void
     {
-        $resolver = new ExceptionMappingResolver(mappings: [\RuntimeException::class => ['code' => Response::HTTP_GATEWAY_TIMEOUT]]);
-        $mapping = $resolver->resolve(\RuntimeException::class);
+        $resolver = new ExceptionMappingResolver(mappings: [RuntimeException::class => ['code' => Response::HTTP_GATEWAY_TIMEOUT]]);
+        $mapping = $resolver->resolve(RuntimeException::class);
 
         $this->assertEquals(Response::HTTP_GATEWAY_TIMEOUT, $mapping->getCode());
         $this->assertFalse($mapping->isHidden());
@@ -35,7 +37,7 @@ class ExceptionMappingResolverTest extends AbstractTestCase
 
     public function testResolveSubClass(): void
     {
-        $resolver = new ExceptionMappingResolver(mappings: [\RuntimeException::class => ['code' => Response::HTTP_GATEWAY_TIMEOUT]]);
+        $resolver = new ExceptionMappingResolver(mappings: [RuntimeException::class => ['code' => Response::HTTP_GATEWAY_TIMEOUT]]);
         $mapping = $resolver->resolve(OutOfBoundsException::class);
 
         $this->assertEquals(Response::HTTP_GATEWAY_TIMEOUT, $mapping->getCode());
