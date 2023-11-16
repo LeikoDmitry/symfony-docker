@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Entity\Book;
 use App\Entity\BookCategory;
 use App\Tests\AbstractControllerTestCase;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class BookControllerTest extends AbstractControllerTestCase
@@ -51,7 +52,8 @@ class BookControllerTest extends AbstractControllerTestCase
             ->setCategories(new ArrayCollection([$bookCategory]))
             ->setAuthors(['lorem'])
             ->setImage('default.png')
-            ->setPublicationDate(new \DateTime('2023-12-12')
+            ->setPublicationDate(
+                new DateTime('2023-12-12')
             );
 
         $this->entityManager->persist($book);

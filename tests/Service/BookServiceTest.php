@@ -11,6 +11,7 @@ use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
 use App\Service\BookService;
 use App\Tests\AbstractTestCase;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\Exception;
 
@@ -45,7 +46,8 @@ class BookServiceTest extends AbstractTestCase
             ->setCategories(new ArrayCollection(['android']))
             ->setAuthors(['lorem'])
             ->setImage('default.png')
-            ->setPublicationDate(new \DateTime('2023-12-12')
+            ->setPublicationDate(
+                new DateTime('2023-12-12')
             );
         $this->setEntityId(entity: $book, value: 100);
 
@@ -64,14 +66,17 @@ class BookServiceTest extends AbstractTestCase
         $service = new BookService(bookRepository: $bookRepository, bookCategoryRepository: $bookCategoryRepository);
 
         $this->assertEquals(
-            new BookListResponse(items: [new BookListItem(
-                id: 100,
-                title: 'test',
-                slug: 'test',
-                image: 'default.png',
-                authors: ['lorem'],
-                publicationDate: '2023-12-12T00:00:00+00:00')]
+            new BookListResponse(
+                items: [new BookListItem(
+                    id: 100,
+                    title: 'test',
+                    slug: 'test',
+                    image: 'default.png',
+                    authors: ['lorem'],
+                    publicationDate: '2023-12-12T00:00:00+00:00'
+                )]
             ),
-            $service->findBooksByCategory(100));
+            $service->findBooksByCategory(100)
+        );
     }
 }

@@ -8,6 +8,7 @@ use App\Model\BookListItem;
 use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
+use DateTimeInterface;
 
 class BookService
 {
@@ -38,7 +39,7 @@ class BookService
             slug: $book->getSlug(),
             image: $book->getImage(),
             authors: $book->getAuthors(),
-            publicationDate: $book->getPublicationDate()->format(\DateTimeInterface::ATOM)
+            publicationDate: $book->getPublicationDate()->format(DateTimeInterface::ATOM)
         );
     }
 }

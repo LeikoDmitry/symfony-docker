@@ -7,6 +7,7 @@ use App\Model\ErrorResponse;
 use App\Service\ExceptionHandler\ExceptionMapping;
 use App\Service\ExceptionHandler\ExceptionMappingResolver;
 use App\Tests\AbstractTestCase;
+use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,7 +32,7 @@ class ApiExceptionListenerTest extends AbstractTestCase
         $resolver = $this->createMock(ExceptionMappingResolver::class);
         $resolver->expects($this->once())
             ->method('resolve')
-            ->with(arguments: \InvalidArgumentException::class)
+            ->with(arguments: InvalidArgumentException::class)
             ->willReturn($mapping);
 
         $logger = $this->createMock(LoggerInterface::class);
@@ -41,7 +42,7 @@ class ApiExceptionListenerTest extends AbstractTestCase
             ->with(new ErrorResponse($message), JsonEncoder::FORMAT)
             ->willReturn($body);
 
-        $event = $this->createEvent(new \InvalidArgumentException('Test'));
+        $event = $this->createEvent(new InvalidArgumentException('Test'));
 
         $listener = new ApiExceptionListener($resolver, $logger, $serializer, false);
         $listener($event);
@@ -53,7 +54,7 @@ class ApiExceptionListenerTest extends AbstractTestCase
         $this->assertJsonStringEqualsJsonString($body, $response->getContent());
     }
 
-    private function createEvent(\InvalidArgumentException $argumentException): ExceptionEvent
+    private function createEvent(InvalidArgumentException $argumentException): ExceptionEvent
     {
         return new ExceptionEvent(
             $this->createTestKernel(),

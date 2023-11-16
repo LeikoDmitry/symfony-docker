@@ -2,6 +2,8 @@
 
 namespace App\Service\ExceptionHandler;
 
+use InvalidArgumentException;
+
 class ExceptionMappingResolver
 {
     /** @var ExceptionMapping[] */
@@ -14,7 +16,7 @@ class ExceptionMappingResolver
     {
         foreach ($mappings as $classKey => $mapping) {
             if (empty($mapping['code'])) {
-                throw new \InvalidArgumentException(sprintf('Code is mandatory for class %s', $classKey));
+                throw new InvalidArgumentException(sprintf('Code is mandatory for class %s', $classKey));
             }
 
             $this->addMapping(

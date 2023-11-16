@@ -10,12 +10,13 @@ use App\Service\BookCategoryService;
 use App\Tests\AbstractTestCase;
 use Doctrine\Common\Collections\Criteria;
 use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class BookCategoryServiceTest extends AbstractTestCase
 {
     /**
      * @throws Exception
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testFindAll(): void
     {

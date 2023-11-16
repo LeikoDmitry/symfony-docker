@@ -3,15 +3,17 @@
 namespace App\Tests;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionException;
 
 abstract class AbstractTestCase extends TestCase
 {
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function setEntityId(object $entity, int $value, string $field = 'id'): void
     {
-        $class = new \ReflectionClass($entity);
+        $class = new ReflectionClass($entity);
 
         $property = $class->getProperty($field);
         $property->setAccessible(true);
