@@ -4,6 +4,7 @@ namespace App\Tests\Service\ExceptionHandler;
 
 use App\Service\ExceptionHandler\ExceptionMappingResolver;
 use App\Tests\AbstractTestCase;
+use OutOfBoundsException;
 use Symfony\Component\HttpFoundation\Response;
 
 class ExceptionMappingResolverTest extends AbstractTestCase
@@ -35,7 +36,7 @@ class ExceptionMappingResolverTest extends AbstractTestCase
     public function testResolveSubClass(): void
     {
         $resolver = new ExceptionMappingResolver(mappings: [\RuntimeException::class => ['code' => Response::HTTP_GATEWAY_TIMEOUT]]);
-        $mapping = $resolver->resolve(\OutOfBoundsException::class);
+        $mapping = $resolver->resolve(OutOfBoundsException::class);
 
         $this->assertEquals(Response::HTTP_GATEWAY_TIMEOUT, $mapping->getCode());
     }
