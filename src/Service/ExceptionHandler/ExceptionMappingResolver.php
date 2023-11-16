@@ -5,7 +5,7 @@ namespace App\Service\ExceptionHandler;
 class ExceptionMappingResolver
 {
     /** @var ExceptionMapping[] */
-    private array $mappings;
+    private array $mappings = [];
 
     /**
      * @param array<string, array{code: int, hidden?: bool, loggable?: bool}> $mappings

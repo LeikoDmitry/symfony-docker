@@ -2,6 +2,7 @@
 
 namespace App\Listener;
 
+use App\Model\ErrorResponse;
 use App\Service\ExceptionHandler\ExceptionMapping;
 use App\Service\ExceptionHandler\ExceptionMappingResolver;
 use Psr\Log\LoggerInterface;
@@ -16,7 +17,8 @@ class ApiExceptionListener
     public function __construct(
         private ExceptionMappingResolver $exceptionMappingResolver,
         private readonly LoggerInterface $logger,
-        private readonly SerializerInterface $serializer
+        private readonly SerializerInterface $serializer,
+        private bool $isDebug,
     ) {
     }
 
@@ -40,20 +42,10 @@ class ApiExceptionListener
         }
 
         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+        $details = $this->isDebug ? ['trace' => $throwable->getTraceAsString()] : null;
 
-        $data = $this->serializer->serialize(data: new class($message) {
-            public function __construct(private readonly string $message)
-            {
-            }
+        $data = $this->serializer->serialize(data: new ErrorResponse($message, $details), format: JsonEncoder::FORMAT);
 
-            public function getMessage(): string
-            {
-                return $this->message;
-            }
-        }, format: JsonEncoder::FORMAT);
-
-        $response = new JsonResponse(data: $data, status: $mapping->getCode(), json: true);
-
-        $exceptionEvent->setResponse($response);
+        $exceptionEvent->setResponse(new JsonResponse(data: $data, status: $mapping->getCode(), json: true));
     }
 }
