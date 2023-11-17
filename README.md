@@ -1,5 +1,7 @@
 # Symfony Docker
 
+[![codecov](https://codecov.io/github/LeikoDmitry/symfony-docker/graph/badge.svg?token=PCBJCLRCD0)](https://codecov.io/github/LeikoDmitry/symfony-docker)
+
 A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework
 
 ## Getting Started
