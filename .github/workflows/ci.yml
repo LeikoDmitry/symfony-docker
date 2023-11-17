@@ -33,6 +33,6 @@ jobs:
       - name: Load fixture
         run: php bin/console doctrine:fixtures:load --no-interaction --env=test
       - name: Run tests and collect coverage
-        run: vendor/bin/phpunit --teamcity
+        run: vendor/bin/phpunit --testdox --coverage-clover coverage.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
