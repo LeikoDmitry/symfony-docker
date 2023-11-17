@@ -12,7 +12,7 @@ jobs:
           php-version: '8.2'
           extensions: imagick, swoole
       - name: Install dependencies
-        run: composer self-update && composer install && composer dump-autoload
+        run: composer self-update && composer update && composer dump-autoload
       - name: Run tests and collect coverage
         run: vendor/bin/phpunit --coverage-clover coverage.xml .
       - name: Upload coverage to Codecov
