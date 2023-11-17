@@ -1,5 +1,7 @@
 name: Workflow for Publisher API
 on: [push, pull_request]
+env:
+  XDEBUG_MODE: coverage
 
 jobs:
   container-run-tests:
