@@ -9,7 +9,7 @@ jobs:
       test-database:
         image: postgres:latest
         env:
-          POSTGRES_PASSWORD: \!ChangeMe\!
+          POSTGRES_PASSWORD: ChangeMe
           POSTGRES_DB: app_test
           POSTGRES_USER: app
         options: >-
