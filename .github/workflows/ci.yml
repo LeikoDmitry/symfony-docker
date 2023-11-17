@@ -26,6 +26,8 @@ jobs:
         run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
       - name: Install container dependencies
         run: apt-get update && apt-get -y install git zip unzip libpq-dev && docker-php-ext-install pdo pdo_pgsql pgsql
+      - name: Install xdebug
+        run: pecl install xdebug && docker-php-ext-enable xdebug
       - name: Install project dependencies
         run: composer install --prefer-dist && composer dump-autoload
       - name: Run doctrine migrations
