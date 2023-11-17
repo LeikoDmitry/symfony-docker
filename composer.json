@@ -86,6 +86,7 @@
         "friendsofphp/php-cs-fixer": "^3.37",
         "helmich/phpunit-json-assert": "^3.5",
         "phpstan/phpstan": "^1.10",
+        "phpunit/php-code-coverage": "^10.1",
         "phpunit/phpunit": "^10.4",
         "symfony/browser-kit": "6.3.*",
         "symfony/css-selector": "6.3.*",
