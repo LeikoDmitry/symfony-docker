@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
   container-job:
     runs-on: ubuntu-latest
-    container: composer:2.6.5
+    container: php:8.2
     services:
       test-database:
         image: postgres:latest
@@ -22,8 +22,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install docker dependencies
-        run: docker-php-ext-install pgsql pdo pdo_pgsql
+      - name: Install package manager(composer)
+        run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
       - name: Install dependencies
         run: composer self-update && composer update && composer dump-autoload
       - name: Run tests and collect coverage
