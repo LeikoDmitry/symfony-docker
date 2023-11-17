@@ -1,30 +1,27 @@
 name: Workflow for Publisher API
 on: [push, pull_request]
+
 jobs:
-  run:
+  container-job:
     runs-on: ubuntu-latest
+    container: composer:2.6.5
     services:
-      postgres:
+      test-database:
         image: postgres:latest
         env:
-          POSTGRES_DB: app_test
           POSTGRES_PASSWORD: !ChangeMe!
+          POSTGRES_DB: app_test
           POSTGRES_USER: app
-        ports:
-          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set up php 8.2
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: imagick, swoole
       - name: Install dependencies
         run: composer self-update && composer update && composer dump-autoload
       - name: Run tests and collect coverage
