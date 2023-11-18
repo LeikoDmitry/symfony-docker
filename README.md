@@ -12,6 +12,20 @@ A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony
 4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
 5. Run `docker compose down --remove-orphans` to stop the Docker containers.
 
+## Using Xdebug
+
+The default development image is shipped with [Xdebug](https://xdebug.org/),
+a popular debugger and profiler for PHP.
+
+Because it has a significant performance overhead, the step-by-step debugger is disabled by default.
+It can be enabled by setting the `XDEBUG_MODE` environment variable to `debug`.
+
+On Linux and Mac:
+
+```
+XDEBUG_MODE=coverage,debug docker compose up -d --build
+```
+
 ## License
 
 Symfony Docker is available under the MIT License.
