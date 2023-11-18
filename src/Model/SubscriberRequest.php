@@ -13,7 +13,7 @@ readonly class SubscriberRequest
 
         #[Assert\NotBlank]
         #[Assert\IsTrue]
-        public bool   $agreed,
+        public bool $agreed,
     ) {
     }
 
@@ -21,7 +21,6 @@ readonly class SubscriberRequest
     {
         return $this->email;
     }
-
 
     public function isAgreed(): bool
     {

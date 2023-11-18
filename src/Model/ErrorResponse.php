@@ -18,7 +18,7 @@ class ErrorResponse
     /**
      * @OA\Property(type="object")
      */
-    public function getDetails()
+    public function getDetails() /* @phpstan-ignore-line */
     {
         return $this->details;
     }

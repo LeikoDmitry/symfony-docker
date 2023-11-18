@@ -7,6 +7,7 @@
 /public/bundles/
 /var/
 /vendor/
+/.phpunit.cache
 ###< symfony/framework-bundle ###
 
 ###> friendsofphp/php-cs-fixer ###

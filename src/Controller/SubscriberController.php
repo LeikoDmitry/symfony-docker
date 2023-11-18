@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Model\ErrorResponse;
 use App\Model\SubscriberRequest;
 use App\Service\SubscriberService;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -10,8 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Model\ErrorResponse;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SubscriberController extends AbstractController
 {
@@ -30,11 +29,14 @@ class SubscriberController extends AbstractController
      * @OA\Response(
      *     response=400,
      *     description="Retun 400 error code if email exist",
+     *
      *     @Model(type=ErrorResponse::class)
      *  )
+     *
      * @OA\Response(
      *      response=422,
      *      description="Validation errors",
+     *
      *      @Model(type=ErrorResponse::class)
      * )
      */
