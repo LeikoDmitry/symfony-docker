@@ -17,9 +17,9 @@ class ApiExceptionListener
 {
     public function __construct(
         private readonly ExceptionMappingResolver $exceptionMappingResolver,
-        private readonly LoggerInterface          $logger,
-        private readonly SerializerInterface      $serializer,
-        private readonly bool                     $isDebug,
+        private readonly LoggerInterface $logger,
+        private readonly SerializerInterface $serializer,
+        private readonly bool $isDebug,
     ) {
     }
 
@@ -43,7 +43,7 @@ class ApiExceptionListener
         }
 
         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
-        $details = $this->isDebug && !$mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()): null;
+        $details = $this->isDebug && !$mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()) : null;
 
         $data = $this->serializer->serialize(data: new ErrorResponse($message, $details), format: JsonEncoder::FORMAT);
 

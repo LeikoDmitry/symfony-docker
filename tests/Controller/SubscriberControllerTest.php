@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SubscriberControllerTest extends AbstractControllerTestCase
 {
-    public function testSubscribe()
+    public function testSubscribe(): void
     {
         $this->kernelBrowser->request(
             method: 'POST',
@@ -18,7 +18,7 @@ class SubscriberControllerTest extends AbstractControllerTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testSubscribeNotAgreed()
+    public function testSubscribeNotAgreed(): void
     {
         $this->kernelBrowser->request(
             method: 'POST',
@@ -35,7 +35,7 @@ class SubscriberControllerTest extends AbstractControllerTestCase
                 PHP_EOL,
                 PHP_EOL
             ),
-            '$.details' => null
+            '$.details' => null,
         ]);
     }
 }
