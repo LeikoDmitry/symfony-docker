@@ -2,6 +2,7 @@
 
 namespace App\Listener;
 
+use App\Model\ErrorDebugDetails;
 use App\Model\ErrorResponse;
 use App\Service\ExceptionHandler\ExceptionMapping;
 use App\Service\ExceptionHandler\ExceptionMappingResolver;
@@ -15,10 +16,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ApiExceptionListener
 {
     public function __construct(
-        private ExceptionMappingResolver $exceptionMappingResolver,
-        private readonly LoggerInterface $logger,
-        private readonly SerializerInterface $serializer,
-        private bool $isDebug,
+        private readonly ExceptionMappingResolver $exceptionMappingResolver,
+        private readonly LoggerInterface          $logger,
+        private readonly SerializerInterface      $serializer,
+        private readonly bool                     $isDebug,
     ) {
     }
 
@@ -42,7 +43,7 @@ class ApiExceptionListener
         }
 
         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
-        $details = $this->isDebug ? ['trace' => $throwable->getTraceAsString()] : null;
+        $details = $this->isDebug && !$mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()): null;
 
         $data = $this->serializer->serialize(data: new ErrorResponse($message, $details), format: JsonEncoder::FORMAT);
 

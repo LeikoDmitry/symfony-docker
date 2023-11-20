@@ -2,11 +2,13 @@
 
 namespace App\Model;
 
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
+use App\Model\ErrorDebugDetails;
 
-class ErrorResponse
+readonly class ErrorResponse
 {
-    public function __construct(private readonly string $message, private mixed $details = null)
+    public function __construct(private string $message, private mixed $details = null)
     {
     }
 
@@ -16,9 +18,9 @@ class ErrorResponse
     }
 
     /**
-     * @OA\Property(type="object")
+     * @OA\Property(type="object", oneOf={@OA\Schema(ref=@Model(type=ErrorDebugDetails::class))})
      */
-    public function getDetails() /* @phpstan-ignore-line */
+    public function getDetails(): mixed
     {
         return $this->details;
     }
