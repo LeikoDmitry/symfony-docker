@@ -11,3 +11,9 @@ Book
 -----
 
 * A service for book, tests for it and a model were added
+* The package for testing has been added [dama/doctrine-test-bundle](https://github.com/dmaicher/doctrine-test-bundle)
+
+Subscriber
+---
+* A service for subscriber, tests for it and a model were added
+
