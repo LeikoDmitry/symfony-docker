@@ -5,7 +5,6 @@ namespace App\Tests\Repository;
 use App\Entity\Book;
 use App\Entity\BookCategory;
 use App\Repository\BookRepository;
-use DateTime;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;

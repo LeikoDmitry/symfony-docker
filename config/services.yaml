@@ -7,6 +7,7 @@ parameters:
     exceptions:
         Symfony\Component\HttpKernel\Exception\NotFoundHttpException: {code: 404, hidden: true, loggable: true}
         App\Exception\BookCategoryNotFoundException: {code: 404, hidden: false, loggable: false}
+        App\Exception\BookNotFoundException: {code: 404, hidden: false, loggable: false}
         App\Exception\SubscriberFoundException: {code: 400, hidden: false, loggable: false}
         Symfony\Component\HttpKernel\Exception\HttpException: {code: 422, hidden: false, loggable: true}
 

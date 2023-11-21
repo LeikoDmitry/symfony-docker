@@ -9,6 +9,7 @@ use App\Model\BookListItem;
 use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
+use App\Repository\ReviewRepository;
 use App\Service\BookService;
 use App\Tests\AbstractTestCase;
 use DateTime;
@@ -23,6 +24,7 @@ class BookServiceTest extends AbstractTestCase
     public function testFindBooksByCategoryNotFound(): void
     {
         $bookRepository = $this->createMock(BookRepository::class);
+        $reviewRepository = $this->createMock(ReviewRepository::class);
         $bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
         $bookCategoryRepository->expects($this->once())
             ->method('find')
@@ -31,7 +33,7 @@ class BookServiceTest extends AbstractTestCase
 
         $this->expectException(BookCategoryNotFoundException::class);
 
-        (new BookService($bookRepository, $bookCategoryRepository))->findBooksByCategory(100);
+        (new BookService($bookRepository, $bookCategoryRepository, $reviewRepository))->findBooksByCategory(100);
     }
 
     /**
@@ -51,6 +53,7 @@ class BookServiceTest extends AbstractTestCase
             );
         $this->setEntityId(entity: $book, value: 100);
 
+        $reviewRepository = $this->createMock(ReviewRepository::class);
         $bookRepository = $this->createMock(BookRepository::class);
         $bookRepository->expects($this->once())
             ->method('findByCategory')
@@ -63,7 +66,11 @@ class BookServiceTest extends AbstractTestCase
             ->with(100)
             ->willReturn(new BookCategory());
 
-        $service = new BookService(bookRepository: $bookRepository, bookCategoryRepository: $bookCategoryRepository);
+        $service = new BookService(
+            bookRepository: $bookRepository,
+            bookCategoryRepository: $bookCategoryRepository,
+            reviewRepository: $reviewRepository
+        );
 
         $this->assertEquals(
             new BookListResponse(

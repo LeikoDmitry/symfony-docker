@@ -29,6 +29,12 @@ class Book
     #[ORM\Column(type: 'simple_array')]
     private array $authors = [];
 
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private ?string $isbn = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $description = null;
+
     #[ORM\Column(type: 'date_immutable')]
     private DateTimeInterface $publicationDate;
 
@@ -41,9 +47,17 @@ class Book
     #[ORM\ManyToMany(targetEntity: BookCategory::class)]
     private Collection $categories;
 
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookRelationToBookFormat::class)]
+    private Collection $formats;
+
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: Review::class)]
+    private Collection $review;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->formats = new ArrayCollection();
+        $this->review = new ArrayCollection();
     }
 
     /**
@@ -140,6 +154,57 @@ class Book
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getIsbn(): string
+    {
+        return $this->isbn;
+    }
+
+    public function setIsbn(string $isbn): static
+    {
+        $this->isbn = $isbn;
+
+        return $this;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BookRelationToBookFormat>
+     */
+    public function getFormat(): Collection
+    {
+        return $this->formats;
+    }
+
+    public function setFormats(Collection $formats): static
+    {
+        $this->formats = $formats;
+
+        return $this;
+    }
+
+    public function getReview(): Collection
+    {
+        return $this->review;
+    }
+
+    public function setReview(Collection $review): static
+    {
+        $this->review = $review;
 
         return $this;
     }

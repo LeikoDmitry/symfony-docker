@@ -32,7 +32,7 @@ class SubscriberServiceTest extends AbstractTestCase
     {
         $this->expectException(SubscriberFoundException::class);
 
-        $this->subscriberRepository->expects($this->once()) /** @phpstan-ignore-line */
+        $this->subscriberRepository->expects($this->once()) /* @phpstan-ignore-line */
             ->method('findOneBy')
             ->with(['email' => static::EMAIL])
             ->willReturn((new Subscriber())->setEmail(static::EMAIL)->setId(1));
@@ -43,7 +43,7 @@ class SubscriberServiceTest extends AbstractTestCase
 
     public function testSubscribe(): void
     {
-        $this->subscriberRepository->expects($this->once()) /** @phpstan-ignore-line */
+        $this->subscriberRepository->expects($this->once()) /* @phpstan-ignore-line */
             ->method('findOneBy')
             ->with(['email' => static::EMAIL])
             ->willReturn(null);
@@ -51,8 +51,8 @@ class SubscriberServiceTest extends AbstractTestCase
         $expectedSubscriber = new Subscriber();
         $expectedSubscriber->setEmail(static::EMAIL);
 
-        $this->entityManager->expects($this->once())->method('persist')->with($expectedSubscriber); /** @phpstan-ignore-line */
-        $this->entityManager->expects($this->once())->method('flush'); /** @phpstan-ignore-line */
+        $this->entityManager->expects($this->once())->method('persist')->with($expectedSubscriber); /* @phpstan-ignore-line */
+        $this->entityManager->expects($this->once())->method('flush'); /* @phpstan-ignore-line */
 
         (new SubscriberService($this->subscriberRepository, $this->entityManager))
             ->subscribe(new SubscriberRequest(email: static::EMAIL, agreed: false));
