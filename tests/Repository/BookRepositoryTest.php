@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Entity\BookCategory;
 use App\Repository\BookRepository;
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -41,7 +42,7 @@ class BookRepositoryTest extends KernelTestCase
     private function createBook(string $name, BookCategory $bookCategory): Book
     {
         return (new Book())
-            ->setPublicationDate(new DateTime())
+            ->setPublicationDate(new DateTimeImmutable())
             ->setAuthors(['author'])
             ->setMeap(false)
             ->setSlug($name)

@@ -29,7 +29,7 @@ class Book
     #[ORM\Column(type: 'simple_array')]
     private array $authors = [];
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'date_immutable')]
     private DateTimeInterface $publicationDate;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
