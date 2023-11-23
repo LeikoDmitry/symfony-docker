@@ -10,6 +10,8 @@ parameters:
         App\Exception\BookNotFoundException: {code: 404, hidden: false, loggable: false}
         App\Exception\SubscriberFoundException: {code: 400, hidden: false, loggable: false}
         Symfony\Component\HttpKernel\Exception\HttpException: {code: 422, hidden: false, loggable: true}
+        Doctrine\ORM\NonUniqueResultException: {code: 404, hidden: false, loggable: true}
+        Doctrine\ORM\NoResultException: {code: 404, hidden: false, loggable: true}
 
 services:
     # default configuration for services in *this* file

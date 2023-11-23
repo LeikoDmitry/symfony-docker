@@ -53,10 +53,10 @@ class BookService
             throw new BookNotFoundException();
         }
 
-        $reviews = $this->reviewRepository->count(['book' => $id]);
+        $reviews = $this->reviewRepository->countByBook($id);
         $ratingSum = $this->reviewRepository->getBookTotalRatingSum($id);
 
-        $formats = $book->getFormat()
+        $formats = $book->getFormats()
             ->map(func: function (BookRelationToBookFormat $formatJoin) {
                 return (new BookFormatListItem())
                     ->setId($formatJoin->getFormat()->getId())
@@ -82,7 +82,7 @@ class BookService
             image: $book->getImage(),
             authors: $book->getAuthors(),
             publicationDate: $book->getPublicationDate()->format(DateTimeInterface::ATOM),
-            rating: ($ratingSum / $reviews),
+            rating: ($reviews > 0 ? $ratingSum / $reviews : 0),
             review: $reviews,
             categories: $categories->toArray(),
             formats: $formats->toArray()

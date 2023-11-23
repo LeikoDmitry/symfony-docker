@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ReviewRepository;
 use DateTimeImmutable;
-use Doctrine\DBAL\Types\Types;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
@@ -13,23 +13,23 @@ class Review
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $rating = null;
+    #[ORM\Column(type: 'integer')]
+    private int $rating;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $content = null;
+    #[ORM\Column(type: 'text')]
+    private string $content;
 
-    #[ORM\Column(length: 255)]
-    private ?string $author = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $author;
 
-    #[ORM\Column]
-    private ?DateTimeImmutable $createdAt = null;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private DateTimeInterface $createdAt;
 
     #[ORM\JoinColumn(nullable: false)]
-    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'reviews')]
+    #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'reviews')]
     private Book $book;
 
     #[ORM\PrePersist]
@@ -43,31 +43,31 @@ class Review
         return $this->id;
     }
 
-    public function getRating(): ?int
+    public function getRating(): int
     {
         return $this->rating;
     }
 
-    public function setRating(?int $rating): static
+    public function setRating(int $rating): static
     {
         $this->rating = $rating;
 
         return $this;
     }
 
-    public function getContent(): ?string
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent(?string $content): static
+    public function setContent(string $content): static
     {
         $this->content = $content;
 
         return $this;
     }
 
-    public function getAuthor(): ?string
+    public function getAuthor(): string
     {
         return $this->author;
     }
@@ -79,12 +79,12 @@ class Review
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    public function setCreatedAt(DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
 

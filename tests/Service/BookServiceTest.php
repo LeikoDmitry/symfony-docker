@@ -44,10 +44,11 @@ class BookServiceTest extends AbstractTestCase
         $book = (new Book())
             ->setTitle('test')
             ->setSlug('test')
-            ->setMeap(true)
             ->setCategories(new ArrayCollection(['android']))
             ->setAuthors(['lorem'])
             ->setImage('default.png')
+            ->setIsbn('1234')
+            ->setDescription('test description')
             ->setPublicationDate(
                 new DateTime('2023-12-12')
             );

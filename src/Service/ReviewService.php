@@ -25,13 +25,13 @@ class ReviewService
      */
     public function getReviewPageByBookId(int $id, int $page): ReviewPage
     {
-        $offset = max(value: $page - 1, values: 0) * self::PAGE_LIMIT; /** @phpstan-ignore-line */
+        $offset = max($page - 1, 0) * self::PAGE_LIMIT; /** @phpstan-ignore-line */
         $paginator = $this->reviewRepository->getPageByBookId(id: $id, offset: $offset, limit: self::PAGE_LIMIT);
         $total = count($paginator);
+        $reviews = $this->reviewRepository->getBookTotalRatingSum($id);
 
         return (new ReviewPage())
-            ->setRating($this->reviewRepository
-            ->getBookTotalRatingSum($id))
+            ->setRating($total > 0 ? $reviews / $total : 0)
             ->setTotal($total)
             ->setPage($page)
             ->setPerPage(self::PAGE_LIMIT)

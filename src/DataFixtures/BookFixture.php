@@ -23,18 +23,18 @@ class BookFixture extends Fixture implements DependentFixtureInterface
             ->setSlug('lorem')
             ->setAuthors(['Bot', 'ChatBot'])
             ->setImage('/public/default.png')
-            ->setMeap(true)
+            ->setIsbn('1234445555')
+            ->setDescription('Some Description')
             ->setCategories(new ArrayCollection([$devicesCategory]))
         );
 
         $manager->persist(
             (new Book())
-            ->setTitle('Lorems Ipsums')
+            ->setTitle('Lorem Ipsum')
             ->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))
-            ->setSlug('lorems')
+            ->setSlug('lorem')
             ->setAuthors(['Bots', 'ChatBot'])
             ->setImage('/public/default1.png')
-            ->setMeap(false)
             ->setCategories(new ArrayCollection([$androidCategory, $devicesCategory]))
         );
 

@@ -48,10 +48,11 @@ class BookControllerTest extends AbstractControllerTestCase
         $book = (new Book())
             ->setTitle('test')
             ->setSlug('test')
-            ->setMeap(true)
             ->setCategories(new ArrayCollection([$bookCategory]))
             ->setAuthors(['lorem'])
             ->setImage('default.png')
+            ->setIsbn('111111')
+            ->setDescription('Test description')
             ->setPublicationDate(
                 new DateTimeImmutable('2023-12-12')
             );

@@ -43,10 +43,11 @@ class BookRepositoryTest extends KernelTestCase
         return (new Book())
             ->setPublicationDate(new DateTimeImmutable())
             ->setAuthors(['author'])
-            ->setMeap(false)
             ->setSlug($name)
             ->setImage('test.png')
             ->setTitle('test')
+            ->setDescription('Test description')
+            ->setIsbn('123456')
             ->setCategories(new ArrayCollection([$bookCategory]));
     }
 

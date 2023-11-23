@@ -13,116 +13,80 @@ class Book
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $title;
 
-    #[ORM\Column(length: 125)]
-    private ?string $slug = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $slug;
 
-    #[ORM\Column(length: 125)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
 
-    /** @var array<string> */
-    #[ORM\Column(type: 'simple_array')]
-    private array $authors = [];
+    /** @var string[] */
+    #[ORM\Column(type: 'simple_array', nullable: true)]
+    private ?array $authors = [];
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[ORM\Column(type: 'string', length: 13, nullable: true)]
     private ?string $isbn = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: 'date_immutable')]
-    private DateTimeInterface $publicationDate;
-
-    #[ORM\Column(type: 'boolean', options: ['default' => false])]
-    private bool $meap;
+    #[ORM\Column(type: 'date_immutable', nullable: true)]
+    private ?DateTimeInterface $publicationDate = null;
 
     /**
      * @var Collection<BookCategory>
      */
     #[ORM\ManyToMany(targetEntity: BookCategory::class)]
+    #[ORM\JoinTable(name: 'book_to_book_category')]
     private Collection $categories;
 
+    /**
+     * @var Collection<BookRelationToBookFormat>
+     */
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookRelationToBookFormat::class)]
     private Collection $formats;
 
+    /**
+     * @var Collection<Review>
+     */
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: Review::class)]
-    private Collection $review;
+    private Collection $reviews;
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
         $this->formats = new ArrayCollection();
-        $this->review = new ArrayCollection();
     }
 
-    /**
-     * @return Collection<BookCategory>
-     */
-    public function getCategories(): Collection
+    public function getId(): ?int
     {
-        return $this->categories;
+        return $this->id;
     }
 
-    public function setCategories(Collection $categories): static
+    public function getTitle(): string
     {
-        $this->categories = $categories;
+        return $this->title;
+    }
+
+    public function setTitle(string $title): static
+    {
+        $this->title = $title;
 
         return $this;
     }
 
-    public function isMeap(): bool
-    {
-        return $this->meap;
-    }
-
-    public function setMeap(bool $meap): static
-    {
-        $this->meap = $meap;
-
-        return $this;
-    }
-
-    public function getPublicationDate(): DateTimeInterface
-    {
-        return $this->publicationDate;
-    }
-
-    public function setPublicationDate(DateTimeInterface $publicationDate): static
-    {
-        $this->publicationDate = $publicationDate;
-
-        return $this;
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getAuthors(): array
-    {
-        return $this->authors;
-    }
-
-    /**
-     * @param array<string> $authors
-     */
-    public function setAuthors(array $authors): static
-    {
-        $this->authors = $authors;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): static
+    public function setSlug(string $slug): static
     {
         $this->slug = $slug;
 
@@ -141,51 +105,81 @@ class Book
         return $this;
     }
 
-    public function getId(): ?int
+    /**
+     * @return string[]|null
+     */
+    public function getAuthors(): ?array
     {
-        return $this->id;
+        return $this->authors;
     }
 
-    public function getTitle(): ?string
+    /**
+     * @param string[] $authors
+     */
+    public function setAuthors(?array $authors): static
     {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): static
-    {
-        $this->title = $title;
+        $this->authors = $authors;
 
         return $this;
     }
 
-    public function getIsbn(): string
+    public function getPublicationDate(): ?DateTimeInterface
+    {
+        return $this->publicationDate;
+    }
+
+    public function setPublicationDate(?DateTimeInterface $publicationDate): static
+    {
+        $this->publicationDate = $publicationDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<BookCategory>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @param Collection $categories
+     *
+     * @return $this
+     */
+    public function setCategories(Collection $categories): static
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
+    public function getIsbn(): ?string
     {
         return $this->isbn;
     }
 
-    public function setIsbn(string $isbn): static
+    public function setIsbn(?string $isbn): static
     {
         $this->isbn = $isbn;
 
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, BookRelationToBookFormat>
-     */
-    public function getFormat(): Collection
+    public function getFormats(): Collection
     {
         return $this->formats;
     }
@@ -197,14 +191,14 @@ class Book
         return $this;
     }
 
-    public function getReview(): Collection
+    public function getReviews(): Collection
     {
-        return $this->review;
+        return $this->reviews;
     }
 
-    public function setReview(Collection $review): static
+    public function setReviews(Collection $reviews): static
     {
-        $this->review = $review;
+        $this->reviews = $reviews;
 
         return $this;
     }
