@@ -33,7 +33,7 @@ jobs:
       - name: Install project dependencies
         run: composer install --prefer-dist && composer dump-autoload
       - name: Run doctrine migrations
-        run: php bin/console doctrine:migrations:migrate --env=test --no-interaction
+        run: php bin/console doctrine:migrations:diff --env=test --no-interaction && doctrine:migrations:migrate --env=test --no-interaction
       - name: Load fixture
         run: php bin/console doctrine:fixtures:load --no-interaction --env=test
       - name: Run tests and collect coverage
