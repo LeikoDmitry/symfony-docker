@@ -24,7 +24,7 @@ class BookController extends AbstractController
     }
     #[OA\Response(response: 200, description: 'Return book by category id', content: new Model(type: BookListResponse::class))]
     #[OA\Response(response: 404, description: 'Book category not found')]
-    #[Route(path: '/api/v1/books/category/{id}', methods: 'GET|OPTIONS')]
+    #[Route(path: '/api/v1/books/category/{id}', name: 'book_by_category', methods: 'GET|OPTIONS')]
     public function booksByCategory(int $id): Response
     {
         return $this->json($this->bookCategoryService->findBooksByCategory($id));
@@ -32,7 +32,7 @@ class BookController extends AbstractController
 
     #[OA\Response(response: 200, description: 'Return book details information', content: new Model(type: BookDetails::class))]
     #[OA\Response(response: 404, description: 'Book not found')]
-    #[Route(path: '/api/v1/books/{id}', methods: 'GET|OPTIONS')]
+    #[Route(path: '/api/v1/books/{id}', name: 'book_by_id', methods: 'GET|OPTIONS')]
     public function booksById(int $id): Response
     {
         return $this->json($this->bookCategoryService->getBookById($id));
@@ -41,7 +41,7 @@ class BookController extends AbstractController
     #[OA\Parameter(name: 'page', description: 'Page Number', in: 'query', schema: new OA\Schema(type: 'integer'))]
     #[OA\Response(response: 200, description: 'Return book reviews', content: new Model(type: ReviewPage::class))]
     #[OA\Response(response: 404, description: 'Book not found')]
-    #[Route(path: '/api/v1/books/review/{id}', methods: 'GET|OPTIONS')]
+    #[Route(path: '/api/v1/books/review/{id}', name: 'reviews', methods: 'GET|OPTIONS')]
     public function reviews(int $id, Request $request): Response
     {
         return $this->json($this->reviewService->getReviewPageByBookId(

@@ -18,7 +18,7 @@ class BookCategoryController extends AbstractController
     }
 
     #[OA\Response(response: 200, description: 'Return book categories', content: new Model(type: BookCategoryListResponse::class))]
-    #[Route(path: '/api/v1/categories', methods: 'GET|OPTIONS')]
+    #[Route(path: '/api/v1/categories', name: 'categories', methods: 'GET|OPTIONS')]
     public function index(): Response
     {
         return $this->json($this->bookCategoryService->findAll());

@@ -22,7 +22,7 @@ class SubscriberController extends AbstractController
     #[OA\RequestBody(content: new Model(type: SubscriberRequest::class))]
     #[OA\Response(response: 400, description: 'Return 400 error code if email exist', content: new Model(type: ErrorResponse::class))]
     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
-    #[Route(path: '/api/v1/subscribe', methods: 'POST')]
+    #[Route(path: '/api/v1/subscribes', name: 'subscribes', methods: 'POST')]
     public function subscribe(#[MapRequestPayload] SubscriberRequest $subscriberRequest): Response
     {
         $this->subscriberService->subscribe($subscriberRequest);

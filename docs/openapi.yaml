@@ -10,7 +10,7 @@ servers:
 paths:
   /api/v1/categories:
     get:
-      operationId: get_app_bookcategory_index
+      operationId: get_categories
       responses:
         '200':
           description: 'Return book categories'
@@ -19,7 +19,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BookCategoryListResponse'
     options:
-      operationId: options_app_bookcategory_index
+      operationId: options_categories
       responses:
         '200':
           description: 'Return book categories'
@@ -29,7 +29,7 @@ paths:
                 $ref: '#/components/schemas/BookCategoryListResponse'
   '/api/v1/books/category/{id}':
     get:
-      operationId: get_app_book_booksbycategory
+      operationId: get_book_by_category
       parameters:
         -
           name: id
@@ -47,7 +47,7 @@ paths:
         '404':
           description: 'Book category not found'
     options:
-      operationId: options_app_book_booksbycategory
+      operationId: options_book_by_category
       parameters:
         -
           name: id
@@ -66,7 +66,7 @@ paths:
           description: 'Book category not found'
   '/api/v1/books/{id}':
     get:
-      operationId: get_app_book_booksbyid
+      operationId: get_book_by_id
       parameters:
         -
           name: id
@@ -84,7 +84,7 @@ paths:
         '404':
           description: 'Book not found'
     options:
-      operationId: options_app_book_booksbyid
+      operationId: options_book_by_id
       parameters:
         -
           name: id
@@ -103,7 +103,7 @@ paths:
           description: 'Book not found'
   '/api/v1/books/review/{id}':
     get:
-      operationId: get_app_book_reviews
+      operationId: get_reviews
       parameters:
         -
           name: page
@@ -127,7 +127,7 @@ paths:
         '404':
           description: 'Book not found'
     options:
-      operationId: options_app_book_reviews
+      operationId: options_reviews
       parameters:
         -
           name: page
@@ -150,9 +150,9 @@ paths:
                 $ref: '#/components/schemas/ReviewPage'
         '404':
           description: 'Book not found'
-  /api/v1/subscribe:
+  /api/v1/subscribes:
     post:
-      operationId: post_app_subscriber_subscribe
+      operationId: post_subscribes
       requestBody:
         content:
           application/json:
