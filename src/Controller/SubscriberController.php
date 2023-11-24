@@ -6,7 +6,7 @@ use App\Model\ErrorResponse;
 use App\Model\SubscriberRequest;
 use App\Service\SubscriberService;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -18,28 +18,10 @@ class SubscriberController extends AbstractController
     {
     }
 
-    /**
-     * @OA\Response(
-     *    response=201,
-     *    description="Subscibe email to newsletters mailing list"
-     * )
-     *
-     * @OA\RequestBody(@Model(type=SubscriberRequest::class))
-     *
-     * @OA\Response(
-     *     response=400,
-     *     description="Retun 400 error code if email exist",
-     *
-     *     @Model(type=ErrorResponse::class)
-     *  )
-     *
-     * @OA\Response(
-     *      response=422,
-     *      description="Validation errors",
-     *
-     *      @Model(type=ErrorResponse::class)
-     * )
-     */
+    #[OA\Response(response: 200, description: 'Subscribe email to newsletters mailing list')]
+    #[OA\RequestBody(content: new Model(type: SubscriberRequest::class))]
+    #[OA\Response(response: 400, description: 'Return 400 error code if email exist', content: new Model(type: ErrorResponse::class))]
+    #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/api/v1/subscribe', methods: 'POST')]
     public function subscribe(#[MapRequestPayload] SubscriberRequest $subscriberRequest): Response
     {
