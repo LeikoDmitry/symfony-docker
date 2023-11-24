@@ -7,6 +7,7 @@ use App\Entity\BookCategory;
 use App\Entity\BookRelationToBookFormat;
 use App\Exception\BookCategoryNotFoundException;
 use App\Exception\BookNotFoundException;
+use App\Mapper\BookMapper;
 use App\Model\BookCategoryListItem;
 use App\Model\BookDetails;
 use App\Model\BookFormatListItem;
@@ -15,16 +16,16 @@ use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
 use App\Repository\ReviewRepository;
-use DateTimeInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 
-class BookService
+readonly class BookService
 {
     public function __construct(
-        private readonly BookRepository $bookRepository,
-        private readonly BookCategoryRepository $bookCategoryRepository,
-        private readonly ReviewRepository $reviewRepository
+        private BookRepository $bookRepository,
+        private BookCategoryRepository $bookCategoryRepository,
+        private ReviewRepository $reviewRepository,
+        private RatingService $ratingService
     ) {
     }
 
@@ -37,7 +38,11 @@ class BookService
         }
 
         return new BookListResponse(
-            array_map(callback: $this->map(...), array: $this->bookRepository->findByCategory($categoryId))
+            array_map(
+                callback: function (Book $book) {
+                    return BookMapper::map($book, BookListItem::class);
+                },
+                array: $this->bookRepository->findByCategory($categoryId))
         );
     }
 
@@ -54,7 +59,6 @@ class BookService
         }
 
         $reviews = $this->reviewRepository->countByBook($id);
-        $ratingSum = $this->reviewRepository->getBookTotalRatingSum($id);
 
         $formats = $book->getFormats()
             ->map(func: function (BookRelationToBookFormat $formatJoin) {
@@ -75,29 +79,11 @@ class BookService
                     slug: $bookCategory->getSlug());
             });
 
-        return new BookDetails(
-            id: $book->getId(),
-            title: $book->getTitle(),
-            slug: $book->getSlug(),
-            image: $book->getImage(),
-            authors: $book->getAuthors(),
-            publicationDate: $book->getPublicationDate()->format(DateTimeInterface::ATOM),
-            rating: ($reviews > 0 ? $ratingSum / $reviews : 0),
-            review: $reviews,
-            categories: $categories->toArray(),
-            formats: $formats->toArray()
-        );
-    }
-
-    private function map(Book $book): BookListItem
-    {
-        return new BookListItem(
-            id: $book->getId(),
-            title: $book->getTitle(),
-            slug: $book->getSlug(),
-            image: $book->getImage(),
-            authors: $book->getAuthors(),
-            publicationDate: $book->getPublicationDate()->format(DateTimeInterface::ATOM)
-        );
+        return BookMapper::map($book, BookDetails::class)
+            ->setReview($reviews)
+            ->setCategories($categories->toArray())
+            ->setFormats($formats->toArray())
+            ->setRating($this->ratingService->calcReview($id, $reviews)
+            );
     }
 }

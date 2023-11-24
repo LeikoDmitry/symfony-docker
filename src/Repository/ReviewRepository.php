@@ -3,12 +3,13 @@
 namespace App\Repository;
 
 use App\Entity\Review;
+use Countable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
-use Throwable;
+use Traversable;
 
 /**
  * @extends ServiceEntityRepository<Review>
@@ -36,7 +37,7 @@ class ReviewRepository extends ServiceEntityRepository
         )->setParameter(key: 'id', value: $id)->getSingleScalarResult();
     }
 
-    public function getPageByBookId(int $id, int $offset, int $limit): Paginator
+    public function getPageByBookId(int $id, int $offset, int $limit): Countable&Traversable /** @phpstan-ignore-line */
     {
         $query = $this->getEntityManager()->createQuery(
             dql: 'SELECT r FROM App\Entity\Review r WHERE r.book = :id ORDER BY r.createdAt DESC '

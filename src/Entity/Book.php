@@ -144,8 +144,6 @@ class Book
     }
 
     /**
-     * @param Collection $categories
-     *
      * @return $this
      */
     public function setCategories(Collection $categories): static

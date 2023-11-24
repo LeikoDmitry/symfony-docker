@@ -16,12 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BookController extends AbstractController
 {
-
     public function __construct(
         private readonly BookService $bookCategoryService,
         private readonly ReviewService $reviewService
     ) {
     }
+
     #[OA\Response(response: 200, description: 'Return book by category id', content: new Model(type: BookListResponse::class))]
     #[OA\Response(response: 404, description: 'Book category not found')]
     #[Route(path: '/api/v1/books/category/{id}', name: 'book_by_category', methods: 'GET|OPTIONS')]

@@ -12,12 +12,12 @@ class BookDetails
         /** @var string[] */
         private array $authors,
         private string $publicationDate,
-        private float $rating,
-        private int $review,
+        private float $rating = 0.0,
+        private int $review = 0,
         /** @var BookCategoryListItem[] */
-        private array $categories,
+        private array $categories = [],
         /** @var BookFormatListItem[] */
-        private array $formats,
+        private array $formats = [],
     ) {
     }
 

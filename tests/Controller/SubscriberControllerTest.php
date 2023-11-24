@@ -11,7 +11,7 @@ class SubscriberControllerTest extends AbstractControllerTestCase
     {
         $this->kernelBrowser->request(
             method: 'POST',
-            uri: '/api/v1/subscribe',
+            uri: '/api/v1/subscribes',
             parameters: ['email' => 'test@mail.ru', 'agreed' => true]
         );
 
@@ -22,7 +22,7 @@ class SubscriberControllerTest extends AbstractControllerTestCase
     {
         $this->kernelBrowser->request(
             method: 'POST',
-            uri: '/api/v1/subscribe',
+            uri: '/api/v1/subscribes',
             parameters: ['email' => 'test@mail.ru']
         );
 
