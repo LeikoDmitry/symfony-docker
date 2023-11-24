@@ -1,0 +1,323 @@
+openapi: 3.0.0
+info:
+  title: 'Publisher API'
+  description: 'This is an awesome app!'
+  version: 1.0.0
+servers:
+  -
+    url: 'https://localhost'
+    description: 'This is just default server'
+paths:
+  /api/v1/categories:
+    get:
+      operationId: get_app_bookcategory_index
+      responses:
+        '200':
+          description: 'Return book categories'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookCategoryListResponse'
+    options:
+      operationId: options_app_bookcategory_index
+      responses:
+        '200':
+          description: 'Return book categories'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookCategoryListResponse'
+  '/api/v1/books/category/{id}':
+    get:
+      operationId: get_app_book_booksbycategory
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Return book by category id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookListResponse'
+        '404':
+          description: 'Book category not found'
+    options:
+      operationId: options_app_book_booksbycategory
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Return book by category id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookListResponse'
+        '404':
+          description: 'Book category not found'
+  '/api/v1/books/{id}':
+    get:
+      operationId: get_app_book_booksbyid
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Return book details information'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDetails'
+        '404':
+          description: 'Book not found'
+    options:
+      operationId: options_app_book_booksbyid
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Return book details information'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDetails'
+        '404':
+          description: 'Book not found'
+  '/api/v1/books/review/{id}':
+    get:
+      operationId: get_app_book_reviews
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'Page Number'
+          schema:
+            type: integer
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Return book reviews'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewPage'
+        '404':
+          description: 'Book not found'
+    options:
+      operationId: options_app_book_reviews
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'Page Number'
+          schema:
+            type: integer
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Return book reviews'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewPage'
+        '404':
+          description: 'Book not found'
+  /api/v1/subscribe:
+    post:
+      operationId: post_app_subscriber_subscribe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriberRequest'
+      responses:
+        '200':
+          description: 'Subscribe email to newsletters mailing list'
+        '400':
+          description: 'Return 400 error code if email exist'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 'Validation errors'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    BookCategoryListResponse:
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookCategoryListItem'
+      type: object
+    BookListResponse:
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookListItem'
+      type: object
+    BookDetails:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        slug:
+          type: string
+        image:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+        publicationDate:
+          type: string
+        rating:
+          type: number
+          format: float
+        review:
+          type: integer
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookCategoryListItem'
+        formats:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookFormatListItem'
+      type: object
+    ReviewPage:
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+        rating:
+          type: number
+          format: float
+        page:
+          type: integer
+        pages:
+          type: integer
+        perPage:
+          type: integer
+        total:
+          type: integer
+      type: object
+    SubscriberRequest:
+      required:
+        - email
+        - agreed
+      properties:
+        email:
+          type: string
+        agreed:
+          type: boolean
+      type: object
+    ErrorResponse:
+      properties:
+        message:
+          type: string
+        details:
+          type: object
+          oneOf:
+            -
+              $ref: '#/components/schemas/ErrorDebugDetails'
+      type: object
+    BookCategoryListItem:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        slug:
+          type: string
+      type: object
+    BookListItem:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        slug:
+          type: string
+        image:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+        publicationDate:
+          type: string
+      type: object
+    BookFormatListItem:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        comment:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: float
+        discountPercent:
+          type: integer
+          nullable: true
+      type: object
+    Review:
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        author:
+          type: string
+        rating:
+          type: integer
+        createdAt:
+          type: string
+      type: object
+    ErrorDebugDetails:
+      properties:
+        trace:
+          type: string
+      type: object
+
