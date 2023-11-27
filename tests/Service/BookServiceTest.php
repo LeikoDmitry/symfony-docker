@@ -12,6 +12,7 @@ use App\Repository\BookRepository;
 use App\Repository\ReviewRepository;
 use App\Service\BookService;
 use App\Service\RatingService;
+use App\Service\Recommendation\RecommendationService;
 use App\Tests\AbstractTestCase;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,6 +29,7 @@ class BookServiceTest extends AbstractTestCase
         $reviewRepository = $this->createMock(ReviewRepository::class);
         $bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
         $ratingService = $this->createMock(RatingService::class);
+        $recommendationService = $this->createMock(RecommendationService::class);
         $bookCategoryRepository->expects($this->once())
             ->method('find')
             ->with(100)
@@ -35,7 +37,7 @@ class BookServiceTest extends AbstractTestCase
 
         $this->expectException(BookCategoryNotFoundException::class);
 
-        (new BookService($bookRepository, $bookCategoryRepository, $reviewRepository, $ratingService))->findBooksByCategory(100);
+        (new BookService($bookRepository, $bookCategoryRepository, $reviewRepository, $ratingService, $recommendationService))->findBooksByCategory(100);
     }
 
     /**
@@ -70,12 +72,14 @@ class BookServiceTest extends AbstractTestCase
             ->willReturn(new BookCategory());
 
         $ratingService = $this->createMock(RatingService::class);
+        $recommendationService = $this->createMock(RecommendationService::class);
 
         $service = new BookService(
             bookRepository: $bookRepository,
             bookCategoryRepository: $bookCategoryRepository,
             reviewRepository: $reviewRepository,
-            ratingService: $ratingService
+            ratingService: $ratingService,
+            recommendationService: $recommendationService
         );
 
         $this->assertEquals(
