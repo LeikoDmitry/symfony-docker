@@ -65,6 +65,16 @@ services:
       - database_test_data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
+  hoverfly:
+    image: spectolabs/hoverfly:v1.6.0
+    command:
+      - "-webserver"
+      - "-response-body-files-path=/hoverfly_app/responses"
+      - "-import=/hoverfly_app/simulations/recommend.simulation.json"
+    volumes:
+      - "$PWD/hoverfly:/hoverfly_app:ro"
+    ports:
+      - "8500:8500"
 
 volumes:
   caddy_data:

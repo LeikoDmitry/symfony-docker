@@ -17,6 +17,14 @@ framework:
     #fragments: true
     php_errors:
         log: true
+    
+    http_client:
+        scoped_clients:
+            recommendation.client:
+                base_uri: "%env(HOVER_FLY_SERVICE)%"
+                headers:
+                    Accept: 'application/json'
+                    Authorization: 'Bearer %env(HOVER_FLY_TOKEN)%'
 
 when@test:
     framework:

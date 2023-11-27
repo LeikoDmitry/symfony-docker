@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\BookDetails;
+use App\Model\BookListRecommendationResponse;
 use App\Model\BookListResponse;
 use App\Model\ReviewPage;
 use App\Service\BookService;
@@ -28,6 +29,14 @@ class BookController extends AbstractController
     public function booksByCategory(int $id): Response
     {
         return $this->json($this->bookCategoryService->findBooksByCategory($id));
+    }
+
+    #[OA\Response(response: 200, description: 'Return book by recommendations id', content: new Model(type: BookListRecommendationResponse::class))]
+    #[OA\Response(response: 403, description: 'Access Denied')]
+    #[Route(path: '/api/v1/books/recommendation/{id}', name: 'book_by_recommendation', methods: 'GET|OPTIONS')]
+    public function booksByRecommendations(int $id): Response
+    {
+        return $this->json($this->bookCategoryService->findBooksByRecommendations($id));
     }
 
     #[OA\Response(response: 200, description: 'Return book details information', content: new Model(type: BookDetails::class))]
