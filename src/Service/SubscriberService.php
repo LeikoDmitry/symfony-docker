@@ -8,7 +8,7 @@ use App\Model\SubscriberRequest;
 use App\Repository\SubscriberRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class SubscriberService
+readonly class SubscriberService
 {
     public function __construct(
         private SubscriberRepository $subscriberRepository,
