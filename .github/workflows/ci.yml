@@ -9,7 +9,7 @@ jobs:
     container: php:8.2
     services:
       test-database:
-        image: postgres:latest
+        image: postgres:15
         env:
           POSTGRES_PASSWORD: ChangeMe
           POSTGRES_DB: app_test
