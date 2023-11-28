@@ -17,3 +17,6 @@ Subscriber
 ---
 * A service for subscriber, tests for it and a model were added
 
+HoverFly
+---
+* Added external integration for REST API emulation
