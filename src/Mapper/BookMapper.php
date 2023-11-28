@@ -32,6 +32,6 @@ class BookMapper
             ->setTitle($book->getTitle())
             ->setSlug($book->getSlug())
             ->setDescription($description)
-            ;
+        ;
     }
 }

@@ -33,6 +33,8 @@ class BookRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int[] $ids
+     *
      * @return Book[]
      */
     public function findBooksByIds(array $ids): array

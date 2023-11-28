@@ -33,7 +33,7 @@ class RatingServiceTest extends AbstractTestCase
      */
     public function testCalcReview(int $repositoryRatingSum, int $total, float $expectedRating): void
     {
-        $this->reviewRepository->expects($this->once()) /** @phpstan-ignore-line */
+        $this->reviewRepository->expects($this->once()) /* @phpstan-ignore-line */
             ->method('getBookTotalRatingSum')
             ->with(1)
             ->willReturn($repositoryRatingSum);
@@ -45,7 +45,7 @@ class RatingServiceTest extends AbstractTestCase
 
     public function testCalcReviewZeroTotal(): void
     {
-        $this->reviewRepository->expects($this->never())->method('getBookTotalRatingSum'); /** @phpstan-ignore-line */
+        $this->reviewRepository->expects($this->never())->method('getBookTotalRatingSum'); /* @phpstan-ignore-line */
 
         $this->assertEquals(0, (new RatingService($this->reviewRepository))->calcReview(1, 0));
     }

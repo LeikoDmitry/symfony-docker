@@ -43,12 +43,12 @@ class ReviewServiceTest extends AbstractTestCase
      */
     public function testGetReviewPageByBookIdInvalidPage(int $page, int $offset): void
     {
-        $this->ratingService->expects($this->once()) /** @phpstan-ignore-line */
+        $this->ratingService->expects($this->once()) /* @phpstan-ignore-line */
             ->method('calcReview')
             ->with(self::BOOK_ID, 0)
             ->willReturn(0.0);
 
-        $this->reviewRepository->expects($this->once()) /** @phpstan-ignore-line */
+        $this->reviewRepository->expects($this->once()) /* @phpstan-ignore-line */
             ->method('getPageByBookId')
             ->with(self::BOOK_ID, $offset, 5)
             ->willReturn(new ArrayIterator([]));
@@ -65,7 +65,7 @@ class ReviewServiceTest extends AbstractTestCase
      */
     public function testGetReviewPageByBookIdSuccess(): void
     {
-        $this->ratingService->expects($this->once()) /** @phpstan-ignore-line */
+        $this->ratingService->expects($this->once()) /* @phpstan-ignore-line */
             ->method('calcReview')
             ->with(self::BOOK_ID, 1)
             ->willReturn(4.0);
@@ -79,7 +79,7 @@ class ReviewServiceTest extends AbstractTestCase
 
         $this->setEntityId($review, 1);
 
-        $this->reviewRepository->expects($this->once()) /** @phpstan-ignore-line */
+        $this->reviewRepository->expects($this->once()) /* @phpstan-ignore-line */
             ->method('getPageByBookId')
             ->with(self::BOOK_ID, 0, 5)
             ->willReturn(new ArrayIterator([$review]));

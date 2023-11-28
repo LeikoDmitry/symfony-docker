@@ -4,7 +4,11 @@ namespace App\Tests\Service;
 
 use App\Entity\Book;
 use App\Entity\BookCategory;
+use App\Entity\BookFormat;
+use App\Entity\BookRelationToBookFormat;
 use App\Exception\BookCategoryNotFoundException;
+use App\Model\BookDetails;
+use App\Model\BookFormatListItem;
 use App\Model\BookListItem;
 use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
@@ -95,5 +99,78 @@ class BookServiceTest extends AbstractTestCase
             ),
             $service->findBooksByCategory(100)
         );
+    }
+
+    public function testGetBookById(): void
+    {
+        $bookFormat = new BookFormatListItem();
+        $bookFormat
+            ->setId(1)
+            ->setTitle('format')
+            ->setDescription('test')
+            ->setComment('test')
+            ->setPrice(78.0)
+            ->setDiscountPercent(8)
+        ;
+
+        $format = (new BookFormat())
+            ->setTitle('format')
+            ->setDescription('test')
+            ->setComment('test');
+        $this->setEntityId($format, value: 1);
+
+        $join = (new BookRelationToBookFormat())->setDiscountPercent(8)->setFormat($format)->setPrice(78);
+        $this->setEntityId($join, value: 1);
+
+        $book = (new Book())
+            ->setTitle('test')
+            ->setSlug('test')
+            ->setCategories(new ArrayCollection([]))
+            ->setFormats(new ArrayCollection([$join]))
+            ->setAuthors(['lorem'])
+            ->setImage('test')
+            ->setIsbn('1234')
+            ->setDescription('test description')
+            ->setPublicationDate(
+                new DateTime('2023-12-12')
+            );
+
+        $this->setEntityId(entity: $book, value: 100);
+
+        $bookRepository = $this->createMock(BookRepository::class);
+        $bookRepository->expects($this->once())
+            ->method('find')
+            ->with(100)
+            ->willReturn($book);
+
+        $ratingService = $this->createMock(RatingService::class);
+        $ratingService->expects($this->once())->method('calcReview')->with(100)->willReturn(1.25);
+
+        $bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
+        $reviewRepository = $this->createMock(ReviewRepository::class);
+        $recommendationService = $this->createMock(RecommendationService::class);
+
+        $service = new BookService(
+            bookRepository: $bookRepository,
+            bookCategoryRepository: $bookCategoryRepository,
+            reviewRepository: $reviewRepository,
+            ratingService: $ratingService,
+            recommendationService: $recommendationService
+        );
+
+        $expected = (new BookDetails(
+            id: 100,
+            title: 'test',
+            slug: 'test',
+            image: 'test',
+            authors: ['lorem'],
+            publicationDate: '2023-12-12T00:00:00+00:00',
+            rating: 1.25,
+            review: 0,
+            categories: [],
+            formats: [$bookFormat]
+        ));
+
+        $this->assertEquals($expected, $service->getBookById($book->getId()));
     }
 }

@@ -4,8 +4,12 @@ namespace App\Model\Recommendation;
 
 readonly class RecommendationResponse
 {
-    public function __construct(private int $id, private int $ts, private array $recommendations)
-    {
+    public function __construct(
+        private int $id,
+        private int $ts,
+        /** @var RecommendationItem[] */
+        private array $recommendations
+    ) {
     }
 
     public function getId(): int

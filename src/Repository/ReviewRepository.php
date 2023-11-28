@@ -37,7 +37,7 @@ class ReviewRepository extends ServiceEntityRepository
         )->setParameter(key: 'id', value: $id)->getSingleScalarResult();
     }
 
-    public function getPageByBookId(int $id, int $offset, int $limit): Countable&Traversable /** @phpstan-ignore-line */
+    public function getPageByBookId(int $id, int $offset, int $limit): Countable&Traversable /* @phpstan-ignore-line */
     {
         $query = $this->getEntityManager()->createQuery(
             dql: 'SELECT r FROM App\Entity\Review r WHERE r.book = :id ORDER BY r.createdAt DESC '
