@@ -112,7 +112,6 @@ class BookServiceTest extends AbstractTestCase
             ->setPrice(78.0)
             ->setDiscountPercent(8)
         ;
-
         $format = (new BookFormat())
             ->setTitle('format')
             ->setDescription('test')
