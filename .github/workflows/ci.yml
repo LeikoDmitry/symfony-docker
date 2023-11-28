@@ -35,7 +35,7 @@ jobs:
       - name: Run doctrine migrations
         run: php bin/console doctrine:migrations:migrate --env=test --no-interaction
       - name: Load fixture
-        run: php bin/console doctrine:fixtures:load --no-interaction --env=test
+        run: php bin/console doctrine:fixtures:load --no-interaction
       - name: Run tests and collect coverage
         run: vendor/bin/phpunit --coverage-text --testdox --coverage-clover coverage.xml
       - name: Upload coverage to Codecov
