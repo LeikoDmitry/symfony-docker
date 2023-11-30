@@ -10,7 +10,11 @@ use App\Exception\BookCategoryNotFoundException;
 use App\Model\BookDetails;
 use App\Model\BookFormatListItem;
 use App\Model\BookListItem;
+use App\Model\BookListRecommendationResponse;
 use App\Model\BookListResponse;
+use App\Model\Recommendation\RecommendationItem;
+use App\Model\Recommendation\RecommendationResponse;
+use App\Model\RecommendedBook;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
 use App\Repository\ReviewRepository;
@@ -171,5 +175,90 @@ class BookServiceTest extends AbstractTestCase
         ));
 
         $this->assertEquals($expected, $service->getBookById($book->getId()));
+    }
+
+    public static function dataProvider(): array /** @phpstan-ignore-line */
+    {
+        return [
+            ['short description', 'short description'],
+            [
+                <<<EOF
+                    urabitur facilisis consequat quam, nec venenatis leo pellentesque eget.
+                    Donec placerat pellentesque libero, non mollis justo egestas nec.
+                    Aenean vehicula, risus a congue dapibus, ipsum eros interdum purus,
+                    vel mollis risus ligula sed neque. Phasellus euismod congue ullamcorper.
+                    Vivamus molestie tellus aliquam, aliquet leo at, efficitur quam.
+                    Donec vulputate leo quis aliquam blandit. Curabitur varius ultricies ex sed sagittis.
+                    Suspendisse bibendum gravida ornare
+                 EOF,
+                <<<EOF
+                    urabitur facilisis consequat quam, nec venenatis leo pellentesque eget.
+                    Donec placerat pellentesque libero, non mollis justo egestas nec.
+                    Aen...
+                 EOF,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProvider
+     */
+    public function testFindBooksByRecommendations(string $actualDescription, string $expectedDescription): void
+    {
+        $bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
+        $reviewRepository = $this->createMock(ReviewRepository::class);
+        $ratingService = $this->createMock(RatingService::class);
+
+        $book = (new Book())
+            ->setTitle('test')
+            ->setSlug('test')
+            ->setCategories(new ArrayCollection([]))
+            ->setFormats(new ArrayCollection([]))
+            ->setAuthors(['lorem'])
+            ->setImage('test')
+            ->setIsbn('1234')
+            ->setDescription($actualDescription)
+            ->setPublicationDate(
+                new DateTime('2023-12-12')
+            );
+
+        $this->setEntityId($book, 5);
+
+        $bookRepository = $this->createMock(BookRepository::class);
+        $bookRepository->expects($this->once())
+            ->method('findBooksByIds')
+            ->with([5])
+            ->willReturn([$book]);
+
+        $recommendationService = $this->createMock(RecommendationService::class);
+        $recommendationService->expects($this->once())
+            ->method('getRecommendationByBookId')
+            ->with(6)->willReturn(new RecommendationResponse(
+                id: 5,
+                ts: 12245678,
+                recommendations: [
+                    new RecommendationItem(id: 5),
+                ])
+            );
+
+        $service = new BookService(
+            bookRepository: $bookRepository,
+            bookCategoryRepository: $bookCategoryRepository,
+            reviewRepository: $reviewRepository,
+            ratingService: $ratingService,
+            recommendationService: $recommendationService
+        );
+
+        $response = $service->findBooksByRecommendations(6);
+
+        $expected = new BookListRecommendationResponse(items: [
+            (new RecommendedBook())
+                ->setDescription($expectedDescription)
+                ->setId(5)
+                ->setTitle('test')
+                ->setSlug('test'),
+        ]);
+
+        $this->assertEquals($expected, $response);
     }
 }

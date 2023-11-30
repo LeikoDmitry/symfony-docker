@@ -59,7 +59,6 @@ class BookControllerTest extends AbstractControllerTestCase
             );
 
         $this->entityManager->persist($book);
-
         $this->entityManager->flush();
 
         return $bookCategory->getId();
@@ -138,7 +137,6 @@ class BookControllerTest extends AbstractControllerTestCase
             );
 
         $this->entityManager->persist($book);
-
         $this->entityManager->flush();
 
         $this->kernelBrowser->request(method: 'GET', uri: '/api/v1/books/'.$book->getId());
@@ -159,6 +157,45 @@ class BookControllerTest extends AbstractControllerTestCase
                 'review' => ['type' => 'number'],
                 'categories' => ['type' => 'array'],
                 'formats' => ['type' => 'array'],
+            ],
+        ]);
+    }
+
+    public function testBooksByRecommendations(): void
+    {
+        $book = (new Book())
+            ->setTitle('test')
+            ->setSlug('test')
+            ->setCategories(new ArrayCollection([]))
+            ->setAuthors(['lorem'])
+            ->setImage('default.png')
+            ->setIsbn('111111')
+            ->setDescription('Test description')
+            ->setPublicationDate(
+                new DateTimeImmutable('2023-12-12')
+            );
+
+        $this->entityManager->persist($book);
+        $this->entityManager->flush();
+
+        $this->kernelBrowser->request(method: 'GET', uri: '/api/v1/books/recommendation/'.$book->getId());
+        $response = json_decode($this->kernelBrowser->getResponse()->getContent());
+
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonDocumentMatchesSchema($response, [
+            'type' => 'object',
+            'required' => ['items'],
+            'properties' => [
+                'items' => [
+                    'type' => 'array',
+                    'required' => ['id', 'slug', 'title', 'description'],
+                    'properties' => [
+                        'id' => ['type' => 'integer'],
+                        'title' => ['type' => 'string'],
+                        'description' => ['type' => 'string'],
+                        'slug' => ['type' => 'string'],
+                    ],
+                ],
             ],
         ]);
     }

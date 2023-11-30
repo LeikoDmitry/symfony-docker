@@ -5,7 +5,7 @@ namespace App\Service\Recommendation;
 use App\Exception\RecommendationAccessDeniedException;
 use App\Exception\RecommendationRequestException;
 use App\Model\Recommendation\RecommendationResponse;
-use Symfony\Component\HttpClient\Exception\TransportException;
+use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -37,7 +37,7 @@ class RecommendationService
         } catch (Throwable $exception) {
             $statusCode = $exception->getCode();
 
-            if ($exception instanceof TransportException && Response::HTTP_FORBIDDEN === $statusCode) {
+            if ($exception instanceof ClientException && Response::HTTP_FORBIDDEN === $statusCode) {
                 throw new RecommendationAccessDeniedException();
             }
 
