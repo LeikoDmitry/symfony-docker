@@ -5,25 +5,23 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         users:
-            entity:
-                class: App\Entity\User
-                property: email
+            id: App\Security\JWTUserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        login:
+        api:
             pattern: ^/api/v1/login
             stateless: true
+            entry_point: jwt
             json_login:
-                check_path: /api/v1/login_check # or api_login_check as defined in config/routes.yaml
+                check_path: api_login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-        api:
-            pattern: ^/api
-            stateless: true
             jwt: ~
-
+            refresh_jwt:
+                check_path: api_refresh_token
+    
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:

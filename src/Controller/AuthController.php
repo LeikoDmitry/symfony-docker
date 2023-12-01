@@ -26,6 +26,6 @@ class AuthController extends AbstractController
     #[Route(path: '/api/v1/auth/signup', name: 'signup', methods: 'POST')]
     public function signUp(#[MapRequestPayload] SignUpRequest $signUpRequest): Response
     {
-        return $this->json($this->signUpService->signUp(signUpRequest: $signUpRequest), 201);
+        return $this->signUpService->signUp(signUpRequest: $signUpRequest);
     }
 }
