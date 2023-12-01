@@ -19,7 +19,11 @@ class AuthController extends AbstractController
     {
     }
 
-    #[OA\Response(response: 200, description: 'Sign up a user', content: new Model(type: IdResponse::class))]
+    #[OA\Response(response: 200, description: 'Signs up a user',
+        content: new OA\JsonContent(properties: [
+            new OA\Property(property: 'token', type: 'string'),
+            new OA\Property(property: 'refresh_token', type: 'string')])
+    )]
     #[OA\RequestBody(content: new Model(type: SignUpRequest::class))]
     #[OA\Response(response: 409, description: 'User already exist', content: new Model(type: ErrorResponse::class))]
     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
