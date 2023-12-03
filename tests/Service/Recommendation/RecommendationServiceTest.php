@@ -22,8 +22,7 @@ class RecommendationServiceTest extends AbstractTestCase
         $this->serializer = $this->createMock(SerializerInterface::class);
     }
 
-
-    public static function dataProvider(): array /** @phpstan-ignore-line */
+    public static function dataProvider(): array /* @phpstan-ignore-line */
     {
         return [
             [Response::HTTP_FORBIDDEN, RecommendationAccessDeniedException::class],

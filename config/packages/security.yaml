@@ -1,5 +1,7 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    role_hierarchy:
+        ROLE_AUTHOR: ROLE_USER 
+        ROLE_ADMIN: ROLE_AUTHOR
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
@@ -25,7 +27,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/v1/user, roles: IS_AUTHENTICATED_FULLY}
+        - { path: ^/api/v1/admin, roles: ROLE_ADMIN }
+        - { path: ^/api/v1/author, roles: ROLE_AUTHOR }
+        - { path: ^/api/v1/user, roles: ROLE_USER }
         - { path: ^/api,       roles: PUBLIC_ACCESS }
 
 when@test:

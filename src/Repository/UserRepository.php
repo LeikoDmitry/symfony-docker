@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Exception\UserNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,5 +25,16 @@ class UserRepository extends ServiceEntityRepository
     public function existByEmail(string $email): bool
     {
         return !empty($this->findBy(['email' => $email]));
+    }
+
+    public function getUser(int $userId): User
+    {
+        $user = $this->find(['id' => $userId]);
+
+        if (!$user) {
+            throw new UserNotFoundException('User not found');
+        }
+
+        return $user;
     }
 }

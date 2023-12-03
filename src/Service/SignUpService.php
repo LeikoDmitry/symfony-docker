@@ -28,6 +28,7 @@ readonly class SignUpService
         }
 
         $user = (new User())
+            ->setRoles(['ROLE_USER'])
             ->setEmail($signUpRequest->getEmail())
             ->setLastname($signUpRequest->getLastname())
             ->setFirstName($signUpRequest->getFirstName()

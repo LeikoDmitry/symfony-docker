@@ -14,6 +14,9 @@ readonly class JWTUserProvider implements PayloadAwareUserProviderInterface
     {
     }
 
+    /**
+     * @param string[] $payload
+     */
     public function loadUserByUsernameAndPayload(string $username, array $payload): ?UserInterface
     {
         return null;
@@ -26,7 +29,7 @@ readonly class JWTUserProvider implements PayloadAwareUserProviderInterface
 
     public function supportsClass(string $class): bool
     {
-        return $class === User::class || is_subclass_of($class, User::class);
+        return User::class === $class || is_subclass_of($class, User::class);
     }
 
     public function loadUserByIdentifier(string $identifier): UserInterface
@@ -34,12 +37,15 @@ readonly class JWTUserProvider implements PayloadAwareUserProviderInterface
         return $this->getUser('email', $identifier);
     }
 
+    /**
+     * @param string[] $payload
+     */
     public function loadUserByIdentifierAndPayload(string $identifier, array $payload): UserInterface
     {
         return $this->getUser('id', $payload['id']);
     }
 
-    private function getUser($key, $value): UserInterface
+    private function getUser(string $key, string|int $value): UserInterface
     {
         $user = $this->userRepository->findOneBy([$key => $value]);
 

@@ -14,7 +14,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id;
+    private ?int $id; /** @phpstan-ignore-line */
 
     #[ORM\Column(length: 150, unique: true)]
     private string $email;
@@ -27,6 +27,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 150)]
     private string $password;
+
+    #[ORM\Column(type: 'simple_array')]
+    private array $roles; /** @phpstan-ignore-line */
 
     public function getId(): ?int
     {
@@ -69,7 +72,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -77,15 +79,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    /**
+     * @return string[]
+     */
     public function getRoles(): array
     {
-        return [];
+        return $this->roles;
+    }
+
+    /**
+     * @param string[] $roles
+     */
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     public function eraseCredentials(): void

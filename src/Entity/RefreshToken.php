@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use DateTime;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gesdinet\JWTRefreshTokenBundle\Entity\RefreshTokenRepository;
 use Gesdinet\JWTRefreshTokenBundle\Model\AbstractRefreshToken;
@@ -51,7 +51,6 @@ class RefreshToken extends AbstractRefreshToken
         return $this->refreshToken;
     }
 
-
     public function setRefreshToken($refreshToken = null): static
     {
         $this->refreshToken = $refreshToken;
@@ -59,7 +58,7 @@ class RefreshToken extends AbstractRefreshToken
         return $this;
     }
 
-    public function getUsername(): static
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -71,7 +70,7 @@ class RefreshToken extends AbstractRefreshToken
         return $this;
     }
 
-    public function getValid(): ?DateTime
+    public function getValid(): ?DateTimeInterface
     {
         return $this->valid;
     }

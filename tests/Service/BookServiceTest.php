@@ -177,7 +177,7 @@ class BookServiceTest extends AbstractTestCase
         $this->assertEquals($expected, $service->getBookById($book->getId()));
     }
 
-    public static function dataProvider(): array /** @phpstan-ignore-line */
+    public static function dataProvider(): array /* @phpstan-ignore-line */
     {
         return [
             ['short description', 'short description'],
