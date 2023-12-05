@@ -1,0 +1,24 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "infection.log",
+        "html": "infection.html",
+        "summary": "summary.log",
+        "json": "infection-log.json",
+        "perMutator": "per-mutator.md",
+        "github": true,
+        "gitlab": "gitlab-code-quality.json",
+        "stryker": {
+            "badge": "/^release-.*$/"
+    },
+    "summaryJson": "summary.json"
+},
+    "mutators": {
+        "@default": true
+    }
+}

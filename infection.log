@@ -1,0 +1,2632 @@
+Escaped mutants:
+================
+
+1) /app/src/Controller/AdminController.php:24    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     #[Route(path: '/api/v1/admin/grand-author/{userId}', methods: 'POST')]
+     public function grantAuthor(int $userId) : Response
+     {
+-        $this->roleService->grantAuthor($userId);
++        
+         return new Response('', 201);
+     }
+ }
+
+
+2) /app/src/Controller/AdminController.php:26    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function grantAuthor(int $userId) : Response
+     {
+         $this->roleService->grantAuthor($userId);
+-        return new Response('', 201);
++        return new Response('', 200);
+     }
+ }
+
+
+3) /app/src/Controller/AdminController.php:26    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function grantAuthor(int $userId) : Response
+     {
+         $this->roleService->grantAuthor($userId);
+-        return new Response('', 201);
++        return new Response('', 202);
+     }
+ }
+
+
+4) /app/src/Controller/BookController.php:58    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     #[Route(path: '/api/v1/books/review/{id}', name: 'reviews', methods: 'GET|OPTIONS')]
+     public function reviews(int $id, Request $request) : Response
+     {
+-        return $this->json($this->reviewService->getReviewPageByBookId($id, $request->query->get(key: 'page', default: 1)));
++        return $this->json($this->reviewService->getReviewPageByBookId($id, $request->query->get(key: 'page', default: 0)));
+     }
+ }
+
+
+5) /app/src/Controller/BookController.php:58    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     #[Route(path: '/api/v1/books/review/{id}', name: 'reviews', methods: 'GET|OPTIONS')]
+     public function reviews(int $id, Request $request) : Response
+     {
+-        return $this->json($this->reviewService->getReviewPageByBookId($id, $request->query->get(key: 'page', default: 1)));
++        return $this->json($this->reviewService->getReviewPageByBookId($id, $request->query->get(key: 'page', default: 2)));
+     }
+ }
+
+
+6) /app/src/Controller/SubscriberController.php:28    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     #[Route(path: '/api/v1/subscribes', name: 'subscribes', methods: 'POST')]
+     public function subscribe(#[MapRequestPayload] SubscriberRequest $subscriberRequest) : Response
+     {
+-        $this->subscriberService->subscribe($subscriberRequest);
++        
+         return $this->json(new ErrorResponse(message: 'Subscriber has been created successfully!', details: 'Operation has been completed with no errors'), 201);
+     }
+ }
+
+
+7) /app/src/Controller/SubscriberController.php:33    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function subscribe(#[MapRequestPayload] SubscriberRequest $subscriberRequest) : Response
+     {
+         $this->subscriberService->subscribe($subscriberRequest);
+-        return $this->json(new ErrorResponse(message: 'Subscriber has been created successfully!', details: 'Operation has been completed with no errors'), 201);
++        return $this->json(new ErrorResponse(message: 'Subscriber has been created successfully!', details: 'Operation has been completed with no errors'), 200);
+     }
+ }
+
+
+8) /app/src/Controller/SubscriberController.php:33    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function subscribe(#[MapRequestPayload] SubscriberRequest $subscriberRequest) : Response
+     {
+         $this->subscriberService->subscribe($subscriberRequest);
+-        return $this->json(new ErrorResponse(message: 'Subscriber has been created successfully!', details: 'Operation has been completed with no errors'), 201);
++        return $this->json(new ErrorResponse(message: 'Subscriber has been created successfully!', details: 'Operation has been completed with no errors'), 202);
+     }
+ }
+
+
+9) /app/src/Entity/RefreshToken.php:90    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->user;
+     }
+-    public function setUser(UserInterface $user) : static
++    protected function setUser(UserInterface $user) : static
+     {
+         $this->user = $user;
+         return $this;
+
+
+10) /app/src/Entity/Review.php:35    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'reviews')]
+     private Book $book;
+     #[ORM\PrePersist]
+-    public function setCreatedAtValue() : void
++    protected function setCreatedAtValue() : void
+     {
+         $this->createdAt = new DateTimeImmutable();
+     }
+
+
+11) /app/src/Entity/User.php:109    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     public function eraseCredentials() : void
+     {
+     }
+-    public function getUsername() : string
++    protected function getUsername() : string
+     {
+         return $this->email;
+     }
+
+
+12) /app/src/Exception/BookCategoryNotFoundException.php:11    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = 'Book category not found')
+     {
+-        parent::__construct($message);
++        
+     }
+ }
+
+
+13) /app/src/Exception/RecommendationAccessDeniedException.php:12    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = 'Access Denied', Throwable $previous = null)
+     {
+-        parent::__construct($message, 0, $previous);
++        parent::__construct($message, -1, $previous);
+     }
+ }
+
+
+14) /app/src/Exception/RecommendationAccessDeniedException.php:12    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = 'Access Denied', Throwable $previous = null)
+     {
+-        parent::__construct($message, 0, $previous);
++        parent::__construct($message, 1, $previous);
+     }
+ }
+
+
+15) /app/src/Exception/RecommendationAccessDeniedException.php:12    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = 'Access Denied', Throwable $previous = null)
+     {
+-        parent::__construct($message, 0, $previous);
++        
+     }
+ }
+
+
+16) /app/src/Exception/RecommendationException.php:12    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = '', Throwable $previous = null)
+     {
+-        parent::__construct($message, 0, $previous);
++        parent::__construct($message, -1, $previous);
+     }
+ }
+
+
+17) /app/src/Exception/RecommendationException.php:12    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = '', Throwable $previous = null)
+     {
+-        parent::__construct($message, 0, $previous);
++        parent::__construct($message, 1, $previous);
+     }
+ }
+
+
+18) /app/src/Exception/RecommendationException.php:12    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = '', Throwable $previous = null)
+     {
+-        parent::__construct($message, 0, $previous);
++        
+     }
+ }
+
+
+19) /app/src/Exception/RecommendationRequestException.php:11    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = '', Throwable $throwable = null)
+     {
+-        parent::__construct($message, $throwable);
++        
+     }
+ }
+
+
+20) /app/src/Exception/SubscriberFoundException.php:11    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = 'Subscriber already exist!')
+     {
+-        parent::__construct($message);
++        
+     }
+ }
+
+
+21) /app/src/Exception/UserAlreadyExistException.php:11    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = 'User already exist')
+     {
+-        parent::__construct($message);
++        
+     }
+ }
+
+
+22) /app/src/Listener/ApiExceptionListener.php:42    [M] GreaterThanOrEqualTo
+
+--- Original
++++ New
+@@ @@
+         if (!$mapping) {
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+-        if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
++        if ($mapping->getCode() > Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
+             $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+
+
+23) /app/src/Listener/ApiExceptionListener.php:42    [M] GreaterThanOrEqualToNegotiation
+
+--- Original
++++ New
+@@ @@
+         if (!$mapping) {
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+-        if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
++        if ($mapping->getCode() < Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
+             $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+
+
+24) /app/src/Listener/ApiExceptionListener.php:42    [M] LogicalOr
+
+--- Original
++++ New
+@@ @@
+         if (!$mapping) {
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+-        if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
++        if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR && $mapping->isLoggable()) {
+             $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+
+
+25) /app/src/Listener/ApiExceptionListener.php:42    [M] LogicalOrAllSubExprNegation
+
+--- Original
++++ New
+@@ @@
+         if (!$mapping) {
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+-        if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
++        if (!($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR) || !$mapping->isLoggable()) {
+             $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+
+
+26) /app/src/Listener/ApiExceptionListener.php:42    [M] LogicalOrNegation
+
+--- Original
++++ New
+@@ @@
+         if (!$mapping) {
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+-        if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
++        if (!($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable())) {
+             $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+
+
+27) /app/src/Listener/ApiExceptionListener.php:42    [M] LogicalOrSingleSubExprNegation
+
+--- Original
++++ New
+@@ @@
+         if (!$mapping) {
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+-        if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
++        if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || !$mapping->isLoggable()) {
+             $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+
+
+28) /app/src/Listener/ApiExceptionListener.php:43    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+         if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
+-            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
++            
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+         $details = $this->isDebug && !$mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()) : null;
+
+
+29) /app/src/Listener/ApiExceptionListener.php:45    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+         if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
+-            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
++            $this->logger->error($throwable->getMessage(), ['previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+         $details = $this->isDebug && !$mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()) : null;
+
+
+30) /app/src/Listener/ApiExceptionListener.php:46    [M] ArrayItem
+
+--- Original
++++ New
+@@ @@
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+         if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
+-            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
++            $this->logger->error($throwable->getMessage(), ['trace' > $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+         $details = $this->isDebug && !$mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()) : null;
+
+
+31) /app/src/Listener/ApiExceptionListener.php:47    [M] NotIdentical
+
+--- Original
++++ New
+@@ @@
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+         if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
+-            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
++            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null === $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+         $details = $this->isDebug && !$mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()) : null;
+
+
+32) /app/src/Listener/ApiExceptionListener.php:47    [M] Ternary
+
+--- Original
++++ New
+@@ @@
+             $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
+         }
+         if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
+-            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
++            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? '' : $throwable->getPrevious()->getMessage()]);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+         $details = $this->isDebug && !$mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()) : null;
+
+
+33) /app/src/Listener/ApiExceptionListener.php:53    [M] LogicalAndAllSubExprNegation
+
+--- Original
++++ New
+@@ @@
+             $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+         }
+         $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
+-        $details = $this->isDebug && !$mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()) : null;
++        $details = !$this->isDebug && $mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()) : null;
+         $data = $this->serializer->serialize(data: new ErrorResponse($message, $details), format: JsonEncoder::FORMAT);
+         $exceptionEvent->setResponse(new JsonResponse(data: $data, status: $mapping->getCode(), json: true));
+     }
+
+
+34) /app/src/Listener/ApiExceptionListener.php:62    [M] InstanceOf_
+
+--- Original
++++ New
+@@ @@
+     }
+     private function isSecurityException(Throwable $throwable) : bool
+     {
+-        return $throwable instanceof AuthenticationException;
++        return false;
+     }
+ }
+
+
+35) /app/src/Mapper/BookMapper.php:28    [M] MBString
+
+--- Original
++++ New
+@@ @@
+     public static function mapRecommendations(Book $book) : RecommendedBook
+     {
+         $description = (string) $book->getDescription();
+-        $description = mb_strlen($description) > 150 ? mb_substr($description, 0, 150) . '...' : $description;
++        $description = strlen($description) > 150 ? mb_substr($description, 0, 150) . '...' : $description;
+         return (new RecommendedBook())->setId($book->getId())->setTitle($book->getTitle())->setSlug($book->getSlug())->setDescription($description);
+     }
+ }
+
+
+36) /app/src/Mapper/BookMapper.php:28    [M] GreaterThan
+
+--- Original
++++ New
+@@ @@
+     public static function mapRecommendations(Book $book) : RecommendedBook
+     {
+         $description = (string) $book->getDescription();
+-        $description = mb_strlen($description) > 150 ? mb_substr($description, 0, 150) . '...' : $description;
++        $description = mb_strlen($description) >= 150 ? mb_substr($description, 0, 150) . '...' : $description;
+         return (new RecommendedBook())->setId($book->getId())->setTitle($book->getTitle())->setSlug($book->getSlug())->setDescription($description);
+     }
+ }
+
+
+37) /app/src/Mapper/BookMapper.php:28    [M] MBString
+
+--- Original
++++ New
+@@ @@
+     public static function mapRecommendations(Book $book) : RecommendedBook
+     {
+         $description = (string) $book->getDescription();
+-        $description = mb_strlen($description) > 150 ? mb_substr($description, 0, 150) . '...' : $description;
++        $description = mb_strlen($description) > 150 ? substr($description, 0, 150) . '...' : $description;
+         return (new RecommendedBook())->setId($book->getId())->setTitle($book->getTitle())->setSlug($book->getSlug())->setDescription($description);
+     }
+ }
+
+
+38) /app/src/Model/BookCategoryListItem.php:14    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     public function __construct(public int $id, public string $title, public string $slug)
+     {
+     }
+-    public function getId() : int
++    protected function getId() : int
+     {
+         return $this->id;
+     }
+
+
+39) /app/src/Model/BookCategoryListItem.php:19    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->id;
+     }
+-    public function getTitle() : string
++    protected function getTitle() : string
+     {
+         return $this->title;
+     }
+
+
+40) /app/src/Model/BookCategoryListItem.php:24    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->title;
+     }
+-    public function getSlug() : string
++    protected function getSlug() : string
+     {
+         return $this->slug;
+     }
+ }
+
+
+41) /app/src/Model/BookDetails.php:15    [M] OneZeroFloat
+
+--- Original
++++ New
+@@ @@
+         /** @var string[] */
+         private array $authors,
+         private string $publicationDate,
+-        private float $rating = 0.0,
++        private float $rating = 1.0,
+         private int $review = 0,
+         /** @var BookCategoryListItem[] */
+         private array $categories = [],
+
+
+42) /app/src/Model/BookDetails.php:16    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         private array $authors,
+         private string $publicationDate,
+         private float $rating = 0.0,
+-        private int $review = 0,
++        private int $review = -1,
+         /** @var BookCategoryListItem[] */
+         private array $categories = [],
+         /** @var BookFormatListItem[] */
+
+
+43) /app/src/Model/BookDetails.php:16    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+         private array $authors,
+         private string $publicationDate,
+         private float $rating = 0.0,
+-        private int $review = 0,
++        private int $review = 1,
+         /** @var BookCategoryListItem[] */
+         private array $categories = [],
+         /** @var BookFormatListItem[] */
+
+
+44) /app/src/Model/RecommendedBook.php:12    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     private string $title;
+     private string $slug;
+     private string $description;
+-    public function getId() : int
++    protected function getId() : int
+     {
+         return $this->id;
+     }
+
+
+45) /app/src/Model/RecommendedBook.php:24    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->id = $id;
+         return $this;
+     }
+-    public function getTitle() : string
++    protected function getTitle() : string
+     {
+         return $this->title;
+     }
+
+
+46) /app/src/Model/RecommendedBook.php:36    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->title = $title;
+         return $this;
+     }
+-    public function getSlug() : string
++    protected function getSlug() : string
+     {
+         return $this->slug;
+     }
+
+
+47) /app/src/Model/RecommendedBook.php:48    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->slug = $slug;
+         return $this;
+     }
+-    public function getDescription() : string
++    protected function getDescription() : string
+     {
+         return $this->description;
+     }
+
+
+48) /app/src/Repository/BookRepository.php:42    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+      */
+     public function findBooksByIds(array $ids) : array
+     {
+-        return $this->findBy(['id' => $ids]);
++        return $this->findBy([]);
+     }
+ }
+
+
+49) /app/src/Repository/ReviewRepository.php:35    [M] CastInt
+
+--- Original
++++ New
+@@ @@
+      */
+     public function getBookTotalRatingSum(int $id) : int
+     {
+-        return (int) $this->getEntityManager()->createQuery(dql: 'SELECT SUM(r.rating) FROM App\\Entity\\Review r WHERE r.book = :id')->setParameter(key: 'id', value: $id)->getSingleScalarResult();
++        return $this->getEntityManager()->createQuery(dql: 'SELECT SUM(r.rating) FROM App\\Entity\\Review r WHERE r.book = :id')->setParameter(key: 'id', value: $id)->getSingleScalarResult();
+     }
+     public function getPageByBookId(int $id, int $offset, int $limit) : Countable&Traversable
+     {
+
+
+50) /app/src/Repository/ReviewRepository.php:46    [M] FalseValue
+
+--- Original
++++ New
+@@ @@
+     public function getPageByBookId(int $id, int $offset, int $limit) : Countable&Traversable
+     {
+         $query = $this->getEntityManager()->createQuery(dql: 'SELECT r FROM App\\Entity\\Review r WHERE r.book = :id ORDER BY r.createdAt DESC ')->setParameter(key: 'id', value: $id)->setFirstResult($offset)->setMaxResults($limit);
+-        return new Paginator(query: $query, fetchJoinCollection: false);
++        return new Paginator(query: $query, fetchJoinCollection: true);
+     }
+     public function countByBook(int $id) : int
+     {
+
+
+51) /app/src/Repository/ReviewRepository.php:49    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $query = $this->getEntityManager()->createQuery(dql: 'SELECT r FROM App\\Entity\\Review r WHERE r.book = :id ORDER BY r.createdAt DESC ')->setParameter(key: 'id', value: $id)->setFirstResult($offset)->setMaxResults($limit);
+         return new Paginator(query: $query, fetchJoinCollection: false);
+     }
+-    public function countByBook(int $id) : int
++    protected function countByBook(int $id) : int
+     {
+         return $this->count(['book' => $id]);
+     }
+ }
+
+
+52) /app/src/Repository/ReviewRepository.php:51    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+     }
+     public function countByBook(int $id) : int
+     {
+-        return $this->count(['book' => $id]);
++        return $this->count([]);
+     }
+ }
+
+
+53) /app/src/Service/ExceptionHandler/ExceptionMappingResolver.php:25    [M] Coalesce
+
+--- Original
++++ New
+@@ @@
+             if (empty($mapping['code'])) {
+                 throw new InvalidArgumentException(sprintf('Code is mandatory for class %s', $classKey));
+             }
+-            $this->addMapping(class: $classKey, code: $mapping['code'], hidden: $mapping['hidden'] ?? false, loggable: $mapping['loggable'] ?? false);
++            $this->addMapping(class: $classKey, code: $mapping['code'], hidden: false ?? $mapping['hidden'], loggable: $mapping['loggable'] ?? false);
+         }
+     }
+     public function resolve(string $throwableClass) : ?ExceptionMapping
+
+
+54) /app/src/Service/ExceptionHandler/ExceptionMappingResolver.php:38    [M] Break_
+
+--- Original
++++ New
+@@ @@
+         foreach ($this->mappings as $classKey => $mapping) {
+             if ($throwableClass === $classKey || is_subclass_of($throwableClass, $classKey)) {
+                 $foundMapping = $mapping;
+-                break;
++                continue;
+             }
+         }
+         return $foundMapping;
+
+
+55) /app/src/Service/Recommendation/RecommendationService.php:40    [M] InstanceOf_
+
+--- Original
++++ New
+@@ @@
+             return $this->serializer->deserialize(data: $response->getContent(), type: RecommendationResponse::class, format: JsonEncoder::FORMAT);
+         } catch (Throwable $exception) {
+             $statusCode = $exception->getCode();
+-            if ($exception instanceof ClientException && Response::HTTP_FORBIDDEN === $statusCode) {
++            if (true && Response::HTTP_FORBIDDEN === $statusCode) {
+                 throw new RecommendationAccessDeniedException();
+             }
+             throw new RecommendationRequestException($exception->getMessage(), $exception);
+
+
+56) /app/src/Service/Recommendation/RecommendationService.php:40    [M] LogicalAnd
+
+--- Original
++++ New
+@@ @@
+             return $this->serializer->deserialize(data: $response->getContent(), type: RecommendationResponse::class, format: JsonEncoder::FORMAT);
+         } catch (Throwable $exception) {
+             $statusCode = $exception->getCode();
+-            if ($exception instanceof ClientException && Response::HTTP_FORBIDDEN === $statusCode) {
++            if ($exception instanceof ClientException || Response::HTTP_FORBIDDEN === $statusCode) {
+                 throw new RecommendationAccessDeniedException();
+             }
+             throw new RecommendationRequestException($exception->getMessage(), $exception);
+
+
+57) /app/src/Service/ReviewService.php:30    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+      */
+     public function getReviewPageByBookId(int $id, int $page) : ReviewPage
+     {
+-        $offset = max($page - 1, 0) * self::PAGE_LIMIT;
++        $offset = max($page - 2, 0) * self::PAGE_LIMIT;
+         $paginator = $this->reviewRepository->getPageByBookId(id: $id, offset: $offset, limit: self::PAGE_LIMIT);
+         $total = count($paginator);
+         $items = [];
+
+
+58) /app/src/Service/ReviewService.php:30    [M] Multiplication
+
+--- Original
++++ New
+@@ @@
+      */
+     public function getReviewPageByBookId(int $id, int $page) : ReviewPage
+     {
+-        $offset = max($page - 1, 0) * self::PAGE_LIMIT;
++        $offset = max($page - 1, 0) / self::PAGE_LIMIT;
+         $paginator = $this->reviewRepository->getPageByBookId(id: $id, offset: $offset, limit: self::PAGE_LIMIT);
+         $total = count($paginator);
+         $items = [];
+
+
+59) /app/src/Service/ReviewService.php:44    [M] CastInt
+
+--- Original
++++ New
+@@ @@
+         foreach ($paginator as $item) {
+             $items[] = $this->map($item);
+         }
+-        return (new ReviewPage())->setRating($this->ratingService->calcReview($id, $total))->setTotal($total)->setPage($page)->setPerPage(self::PAGE_LIMIT)->setPages((int) ceil($total / self::PAGE_LIMIT))->setItems($items);
++        return (new ReviewPage())->setRating($this->ratingService->calcReview($id, $total))->setTotal($total)->setPage($page)->setPerPage(self::PAGE_LIMIT)->setPages(ceil($total / self::PAGE_LIMIT))->setItems($items);
+     }
+     public function map(Review $review) : ReviewModel
+     {
+
+
+60) /app/src/Service/ReviewService.php:49    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         }
+         return (new ReviewPage())->setRating($this->ratingService->calcReview($id, $total))->setTotal($total)->setPage($page)->setPerPage(self::PAGE_LIMIT)->setPages((int) ceil($total / self::PAGE_LIMIT))->setItems($items);
+     }
+-    public function map(Review $review) : ReviewModel
++    protected function map(Review $review) : ReviewModel
+     {
+         return (new ReviewModel())->setId($review->getId())->setRating($review->getRating())->setCreatedAt($review->getCreatedAt()->format(DATE_ATOM))->setAuthor($review->getAuthor())->setContent($review->getContent());
+     }
+ }
+
+
+61) /app/src/Service/RoleService.php:31    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     {
+         $user = $this->userRepository->getUser($userId);
+         $user->setRoles([$role]);
+-        $this->entityManager->persist($user);
++        
+         $this->entityManager->flush();
+     }
+ }
+
+
+Timed Out mutants:
+==================
+
+Skipped mutants:
+================
+
+Not Covered mutants:
+====================
+
+1) /app/src/Command/MakeAdminCommand.php:17    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(private RoleService $roleService)
+     {
+-        parent::__construct();
++        
+     }
+     protected function configure() : void
+     {
+
+
+2) /app/src/Command/MakeAdminCommand.php:22    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     }
+     protected function configure() : void
+     {
+-        $this->addArgument('user-id', InputArgument::REQUIRED, 'User id');
++        
+     }
+     protected function execute(InputInterface $input, OutputInterface $output) : int
+     {
+
+
+3) /app/src/Command/MakeAdminCommand.php:27    [M] CastInt
+
+--- Original
++++ New
+@@ @@
+     }
+     protected function execute(InputInterface $input, OutputInterface $output) : int
+     {
+-        $this->roleService->grantAdmin((int) $input->getArgument('user-id'));
++        $this->roleService->grantAdmin($input->getArgument('user-id'));
+         return Command::SUCCESS;
+     }
+ }
+
+
+4) /app/src/Command/MakeAdminCommand.php:27    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     }
+     protected function execute(InputInterface $input, OutputInterface $output) : int
+     {
+-        $this->roleService->grantAdmin((int) $input->getArgument('user-id'));
++        
+         return Command::SUCCESS;
+     }
+ }
+
+
+5) /app/src/Controller/AdminController.php:19    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private RoleService $roleService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Grants ROLE_AUTHOR to a user')]
++    #[OA\Response(response: 199, description: 'Grants ROLE_AUTHOR to a user')]
+     #[OA\Response(response: 404, description: 'User not found', attachables: [new Model(type: ErrorResponse::class)])]
+     #[Route(path: '/api/v1/admin/grand-author/{userId}', methods: 'POST')]
+     public function grantAuthor(int $userId) : Response
+
+
+6) /app/src/Controller/AdminController.php:19    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private RoleService $roleService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Grants ROLE_AUTHOR to a user')]
++    #[OA\Response(response: 201, description: 'Grants ROLE_AUTHOR to a user')]
+     #[OA\Response(response: 404, description: 'User not found', attachables: [new Model(type: ErrorResponse::class)])]
+     #[Route(path: '/api/v1/admin/grand-author/{userId}', methods: 'POST')]
+     public function grantAuthor(int $userId) : Response
+
+
+7) /app/src/Controller/AdminController.php:20    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     {
+     }
+     #[OA\Response(response: 200, description: 'Grants ROLE_AUTHOR to a user')]
+-    #[OA\Response(response: 404, description: 'User not found', attachables: [new Model(type: ErrorResponse::class)])]
++    #[OA\Response(response: 403, description: 'User not found', attachables: [new Model(type: ErrorResponse::class)])]
+     #[Route(path: '/api/v1/admin/grand-author/{userId}', methods: 'POST')]
+     public function grantAuthor(int $userId) : Response
+     {
+
+
+8) /app/src/Controller/AdminController.php:20    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     {
+     }
+     #[OA\Response(response: 200, description: 'Grants ROLE_AUTHOR to a user')]
+-    #[OA\Response(response: 404, description: 'User not found', attachables: [new Model(type: ErrorResponse::class)])]
++    #[OA\Response(response: 405, description: 'User not found', attachables: [new Model(type: ErrorResponse::class)])]
+     #[Route(path: '/api/v1/admin/grand-author/{userId}', methods: 'POST')]
+     public function grantAuthor(int $userId) : Response
+     {
+
+
+9) /app/src/Controller/AuthController.php:21    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly SignUpService $signUpService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Signs up a user', content: new OA\JsonContent(properties: [new OA\Property(property: 'token', type: 'string'), new OA\Property(property: 'refresh_token', type: 'string')]))]
++    #[OA\Response(response: 199, description: 'Signs up a user', content: new OA\JsonContent(properties: [new OA\Property(property: 'token', type: 'string'), new OA\Property(property: 'refresh_token', type: 'string')]))]
+     #[OA\RequestBody(content: new Model(type: SignUpRequest::class))]
+     #[OA\Response(response: 409, description: 'User already exist', content: new Model(type: ErrorResponse::class))]
+     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+
+
+10) /app/src/Controller/AuthController.php:21    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly SignUpService $signUpService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Signs up a user', content: new OA\JsonContent(properties: [new OA\Property(property: 'token', type: 'string'), new OA\Property(property: 'refresh_token', type: 'string')]))]
++    #[OA\Response(response: 201, description: 'Signs up a user', content: new OA\JsonContent(properties: [new OA\Property(property: 'token', type: 'string'), new OA\Property(property: 'refresh_token', type: 'string')]))]
+     #[OA\RequestBody(content: new Model(type: SignUpRequest::class))]
+     #[OA\Response(response: 409, description: 'User already exist', content: new Model(type: ErrorResponse::class))]
+     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+
+
+11) /app/src/Controller/AuthController.php:22    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly SignUpService $signUpService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Signs up a user', content: new OA\JsonContent(properties: [new OA\Property(property: 'token', type: 'string'), new OA\Property(property: 'refresh_token', type: 'string')]))]
++    #[OA\Response(response: 200, description: 'Signs up a user', content: new OA\JsonContent(properties: [new OA\Property(property: 'refresh_token', type: 'string')]))]
+     #[OA\RequestBody(content: new Model(type: SignUpRequest::class))]
+     #[OA\Response(response: 409, description: 'User already exist', content: new Model(type: ErrorResponse::class))]
+     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+
+
+12) /app/src/Controller/AuthController.php:27    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     }
+     #[OA\Response(response: 200, description: 'Signs up a user', content: new OA\JsonContent(properties: [new OA\Property(property: 'token', type: 'string'), new OA\Property(property: 'refresh_token', type: 'string')]))]
+     #[OA\RequestBody(content: new Model(type: SignUpRequest::class))]
+-    #[OA\Response(response: 409, description: 'User already exist', content: new Model(type: ErrorResponse::class))]
++    #[OA\Response(response: 408, description: 'User already exist', content: new Model(type: ErrorResponse::class))]
+     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+     #[Route(path: '/api/v1/auth/signup', name: 'signup', methods: 'POST')]
+     public function signUp(#[MapRequestPayload] SignUpRequest $signUpRequest) : Response
+
+
+13) /app/src/Controller/AuthController.php:27    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     }
+     #[OA\Response(response: 200, description: 'Signs up a user', content: new OA\JsonContent(properties: [new OA\Property(property: 'token', type: 'string'), new OA\Property(property: 'refresh_token', type: 'string')]))]
+     #[OA\RequestBody(content: new Model(type: SignUpRequest::class))]
+-    #[OA\Response(response: 409, description: 'User already exist', content: new Model(type: ErrorResponse::class))]
++    #[OA\Response(response: 410, description: 'User already exist', content: new Model(type: ErrorResponse::class))]
+     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+     #[Route(path: '/api/v1/auth/signup', name: 'signup', methods: 'POST')]
+     public function signUp(#[MapRequestPayload] SignUpRequest $signUpRequest) : Response
+
+
+14) /app/src/Controller/AuthController.php:28    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     #[OA\Response(response: 200, description: 'Signs up a user', content: new OA\JsonContent(properties: [new OA\Property(property: 'token', type: 'string'), new OA\Property(property: 'refresh_token', type: 'string')]))]
+     #[OA\RequestBody(content: new Model(type: SignUpRequest::class))]
+     #[OA\Response(response: 409, description: 'User already exist', content: new Model(type: ErrorResponse::class))]
+-    #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
++    #[OA\Response(response: 421, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+     #[Route(path: '/api/v1/auth/signup', name: 'signup', methods: 'POST')]
+     public function signUp(#[MapRequestPayload] SignUpRequest $signUpRequest) : Response
+     {
+
+
+15) /app/src/Controller/AuthController.php:28    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     #[OA\Response(response: 200, description: 'Signs up a user', content: new OA\JsonContent(properties: [new OA\Property(property: 'token', type: 'string'), new OA\Property(property: 'refresh_token', type: 'string')]))]
+     #[OA\RequestBody(content: new Model(type: SignUpRequest::class))]
+     #[OA\Response(response: 409, description: 'User already exist', content: new Model(type: ErrorResponse::class))]
+-    #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
++    #[OA\Response(response: 423, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+     #[Route(path: '/api/v1/auth/signup', name: 'signup', methods: 'POST')]
+     public function signUp(#[MapRequestPayload] SignUpRequest $signUpRequest) : Response
+     {
+
+
+16) /app/src/Controller/BookCategoryController.php:20    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly BookCategoryService $bookCategoryService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Return book categories', content: new Model(type: BookCategoryListResponse::class))]
++    #[OA\Response(response: 199, description: 'Return book categories', content: new Model(type: BookCategoryListResponse::class))]
+     #[Route(path: '/api/v1/categories', name: 'categories', methods: 'GET|OPTIONS')]
+     public function index() : Response
+     {
+
+
+17) /app/src/Controller/BookCategoryController.php:20    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly BookCategoryService $bookCategoryService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Return book categories', content: new Model(type: BookCategoryListResponse::class))]
++    #[OA\Response(response: 201, description: 'Return book categories', content: new Model(type: BookCategoryListResponse::class))]
+     #[Route(path: '/api/v1/categories', name: 'categories', methods: 'GET|OPTIONS')]
+     public function index() : Response
+     {
+
+
+18) /app/src/Controller/BookController.php:26    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly BookService $bookCategoryService, private readonly ReviewService $reviewService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Return book by category id', content: new Model(type: BookListResponse::class))]
++    #[OA\Response(response: 199, description: 'Return book by category id', content: new Model(type: BookListResponse::class))]
+     #[OA\Response(response: 404, description: 'Book category not found')]
+     #[Route(path: '/api/v1/books/category/{id}', name: 'book_by_category', methods: 'GET|OPTIONS')]
+     public function booksByCategory(int $id) : Response
+
+
+19) /app/src/Controller/BookController.php:26    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly BookService $bookCategoryService, private readonly ReviewService $reviewService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Return book by category id', content: new Model(type: BookListResponse::class))]
++    #[OA\Response(response: 201, description: 'Return book by category id', content: new Model(type: BookListResponse::class))]
+     #[OA\Response(response: 404, description: 'Book category not found')]
+     #[Route(path: '/api/v1/books/category/{id}', name: 'book_by_category', methods: 'GET|OPTIONS')]
+     public function booksByCategory(int $id) : Response
+
+
+20) /app/src/Controller/BookController.php:27    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     {
+     }
+     #[OA\Response(response: 200, description: 'Return book by category id', content: new Model(type: BookListResponse::class))]
+-    #[OA\Response(response: 404, description: 'Book category not found')]
++    #[OA\Response(response: 403, description: 'Book category not found')]
+     #[Route(path: '/api/v1/books/category/{id}', name: 'book_by_category', methods: 'GET|OPTIONS')]
+     public function booksByCategory(int $id) : Response
+     {
+
+
+21) /app/src/Controller/BookController.php:27    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     {
+     }
+     #[OA\Response(response: 200, description: 'Return book by category id', content: new Model(type: BookListResponse::class))]
+-    #[OA\Response(response: 404, description: 'Book category not found')]
++    #[OA\Response(response: 405, description: 'Book category not found')]
+     #[Route(path: '/api/v1/books/category/{id}', name: 'book_by_category', methods: 'GET|OPTIONS')]
+     public function booksByCategory(int $id) : Response
+     {
+
+
+22) /app/src/Controller/BookController.php:34    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->json($this->bookCategoryService->findBooksByCategory($id));
+     }
+-    #[OA\Response(response: 200, description: 'Return book by recommendations id', content: new Model(type: BookListRecommendationResponse::class))]
++    #[OA\Response(response: 199, description: 'Return book by recommendations id', content: new Model(type: BookListRecommendationResponse::class))]
+     #[OA\Response(response: 403, description: 'Access Denied')]
+     #[Route(path: '/api/v1/books/recommendation/{id}', name: 'book_by_recommendation', methods: 'GET|OPTIONS')]
+     public function booksByRecommendations(int $id) : Response
+
+
+23) /app/src/Controller/BookController.php:34    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->json($this->bookCategoryService->findBooksByCategory($id));
+     }
+-    #[OA\Response(response: 200, description: 'Return book by recommendations id', content: new Model(type: BookListRecommendationResponse::class))]
++    #[OA\Response(response: 201, description: 'Return book by recommendations id', content: new Model(type: BookListRecommendationResponse::class))]
+     #[OA\Response(response: 403, description: 'Access Denied')]
+     #[Route(path: '/api/v1/books/recommendation/{id}', name: 'book_by_recommendation', methods: 'GET|OPTIONS')]
+     public function booksByRecommendations(int $id) : Response
+
+
+24) /app/src/Controller/BookController.php:35    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         return $this->json($this->bookCategoryService->findBooksByCategory($id));
+     }
+     #[OA\Response(response: 200, description: 'Return book by recommendations id', content: new Model(type: BookListRecommendationResponse::class))]
+-    #[OA\Response(response: 403, description: 'Access Denied')]
++    #[OA\Response(response: 402, description: 'Access Denied')]
+     #[Route(path: '/api/v1/books/recommendation/{id}', name: 'book_by_recommendation', methods: 'GET|OPTIONS')]
+     public function booksByRecommendations(int $id) : Response
+     {
+
+
+25) /app/src/Controller/BookController.php:35    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+         return $this->json($this->bookCategoryService->findBooksByCategory($id));
+     }
+     #[OA\Response(response: 200, description: 'Return book by recommendations id', content: new Model(type: BookListRecommendationResponse::class))]
+-    #[OA\Response(response: 403, description: 'Access Denied')]
++    #[OA\Response(response: 404, description: 'Access Denied')]
+     #[Route(path: '/api/v1/books/recommendation/{id}', name: 'book_by_recommendation', methods: 'GET|OPTIONS')]
+     public function booksByRecommendations(int $id) : Response
+     {
+
+
+26) /app/src/Controller/BookController.php:42    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->json($this->bookCategoryService->findBooksByRecommendations($id));
+     }
+-    #[OA\Response(response: 200, description: 'Return book details information', content: new Model(type: BookDetails::class))]
++    #[OA\Response(response: 199, description: 'Return book details information', content: new Model(type: BookDetails::class))]
+     #[OA\Response(response: 404, description: 'Book not found')]
+     #[Route(path: '/api/v1/books/{id}', name: 'book_by_id', methods: 'GET|OPTIONS')]
+     public function booksById(int $id) : Response
+
+
+27) /app/src/Controller/BookController.php:42    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->json($this->bookCategoryService->findBooksByRecommendations($id));
+     }
+-    #[OA\Response(response: 200, description: 'Return book details information', content: new Model(type: BookDetails::class))]
++    #[OA\Response(response: 201, description: 'Return book details information', content: new Model(type: BookDetails::class))]
+     #[OA\Response(response: 404, description: 'Book not found')]
+     #[Route(path: '/api/v1/books/{id}', name: 'book_by_id', methods: 'GET|OPTIONS')]
+     public function booksById(int $id) : Response
+
+
+28) /app/src/Controller/BookController.php:43    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         return $this->json($this->bookCategoryService->findBooksByRecommendations($id));
+     }
+     #[OA\Response(response: 200, description: 'Return book details information', content: new Model(type: BookDetails::class))]
+-    #[OA\Response(response: 404, description: 'Book not found')]
++    #[OA\Response(response: 403, description: 'Book not found')]
+     #[Route(path: '/api/v1/books/{id}', name: 'book_by_id', methods: 'GET|OPTIONS')]
+     public function booksById(int $id) : Response
+     {
+
+
+29) /app/src/Controller/BookController.php:43    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+         return $this->json($this->bookCategoryService->findBooksByRecommendations($id));
+     }
+     #[OA\Response(response: 200, description: 'Return book details information', content: new Model(type: BookDetails::class))]
+-    #[OA\Response(response: 404, description: 'Book not found')]
++    #[OA\Response(response: 405, description: 'Book not found')]
+     #[Route(path: '/api/v1/books/{id}', name: 'book_by_id', methods: 'GET|OPTIONS')]
+     public function booksById(int $id) : Response
+     {
+
+
+30) /app/src/Controller/BookController.php:51    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         return $this->json($this->bookCategoryService->getBookById($id));
+     }
+     #[OA\Parameter(name: 'page', description: 'Page Number', in: 'query', schema: new OA\Schema(type: 'integer'))]
+-    #[OA\Response(response: 200, description: 'Return book reviews', content: new Model(type: ReviewPage::class))]
++    #[OA\Response(response: 199, description: 'Return book reviews', content: new Model(type: ReviewPage::class))]
+     #[OA\Response(response: 404, description: 'Book not found')]
+     #[Route(path: '/api/v1/books/review/{id}', name: 'reviews', methods: 'GET|OPTIONS')]
+     public function reviews(int $id, Request $request) : Response
+
+
+31) /app/src/Controller/BookController.php:51    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+         return $this->json($this->bookCategoryService->getBookById($id));
+     }
+     #[OA\Parameter(name: 'page', description: 'Page Number', in: 'query', schema: new OA\Schema(type: 'integer'))]
+-    #[OA\Response(response: 200, description: 'Return book reviews', content: new Model(type: ReviewPage::class))]
++    #[OA\Response(response: 201, description: 'Return book reviews', content: new Model(type: ReviewPage::class))]
+     #[OA\Response(response: 404, description: 'Book not found')]
+     #[Route(path: '/api/v1/books/review/{id}', name: 'reviews', methods: 'GET|OPTIONS')]
+     public function reviews(int $id, Request $request) : Response
+
+
+32) /app/src/Controller/BookController.php:52    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     }
+     #[OA\Parameter(name: 'page', description: 'Page Number', in: 'query', schema: new OA\Schema(type: 'integer'))]
+     #[OA\Response(response: 200, description: 'Return book reviews', content: new Model(type: ReviewPage::class))]
+-    #[OA\Response(response: 404, description: 'Book not found')]
++    #[OA\Response(response: 403, description: 'Book not found')]
+     #[Route(path: '/api/v1/books/review/{id}', name: 'reviews', methods: 'GET|OPTIONS')]
+     public function reviews(int $id, Request $request) : Response
+     {
+
+
+33) /app/src/Controller/BookController.php:52    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     }
+     #[OA\Parameter(name: 'page', description: 'Page Number', in: 'query', schema: new OA\Schema(type: 'integer'))]
+     #[OA\Response(response: 200, description: 'Return book reviews', content: new Model(type: ReviewPage::class))]
+-    #[OA\Response(response: 404, description: 'Book not found')]
++    #[OA\Response(response: 405, description: 'Book not found')]
+     #[Route(path: '/api/v1/books/review/{id}', name: 'reviews', methods: 'GET|OPTIONS')]
+     public function reviews(int $id, Request $request) : Response
+     {
+
+
+34) /app/src/Controller/SubscriberController.php:21    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly SubscriberService $subscriberService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Subscribe email to newsletters mailing list')]
++    #[OA\Response(response: 199, description: 'Subscribe email to newsletters mailing list')]
+     #[OA\RequestBody(content: new Model(type: SubscriberRequest::class))]
+     #[OA\Response(response: 400, description: 'Return 400 error code if email exist', content: new Model(type: ErrorResponse::class))]
+     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+
+
+35) /app/src/Controller/SubscriberController.php:21    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly SubscriberService $subscriberService)
+     {
+     }
+-    #[OA\Response(response: 200, description: 'Subscribe email to newsletters mailing list')]
++    #[OA\Response(response: 201, description: 'Subscribe email to newsletters mailing list')]
+     #[OA\RequestBody(content: new Model(type: SubscriberRequest::class))]
+     #[OA\Response(response: 400, description: 'Return 400 error code if email exist', content: new Model(type: ErrorResponse::class))]
+     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+
+
+36) /app/src/Controller/SubscriberController.php:23    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     }
+     #[OA\Response(response: 200, description: 'Subscribe email to newsletters mailing list')]
+     #[OA\RequestBody(content: new Model(type: SubscriberRequest::class))]
+-    #[OA\Response(response: 400, description: 'Return 400 error code if email exist', content: new Model(type: ErrorResponse::class))]
++    #[OA\Response(response: 399, description: 'Return 400 error code if email exist', content: new Model(type: ErrorResponse::class))]
+     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+     #[Route(path: '/api/v1/subscribes', name: 'subscribes', methods: 'POST')]
+     public function subscribe(#[MapRequestPayload] SubscriberRequest $subscriberRequest) : Response
+
+
+37) /app/src/Controller/SubscriberController.php:23    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     }
+     #[OA\Response(response: 200, description: 'Subscribe email to newsletters mailing list')]
+     #[OA\RequestBody(content: new Model(type: SubscriberRequest::class))]
+-    #[OA\Response(response: 400, description: 'Return 400 error code if email exist', content: new Model(type: ErrorResponse::class))]
++    #[OA\Response(response: 401, description: 'Return 400 error code if email exist', content: new Model(type: ErrorResponse::class))]
+     #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+     #[Route(path: '/api/v1/subscribes', name: 'subscribes', methods: 'POST')]
+     public function subscribe(#[MapRequestPayload] SubscriberRequest $subscriberRequest) : Response
+
+
+38) /app/src/Controller/SubscriberController.php:24    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+     #[OA\Response(response: 200, description: 'Subscribe email to newsletters mailing list')]
+     #[OA\RequestBody(content: new Model(type: SubscriberRequest::class))]
+     #[OA\Response(response: 400, description: 'Return 400 error code if email exist', content: new Model(type: ErrorResponse::class))]
+-    #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
++    #[OA\Response(response: 421, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+     #[Route(path: '/api/v1/subscribes', name: 'subscribes', methods: 'POST')]
+     public function subscribe(#[MapRequestPayload] SubscriberRequest $subscriberRequest) : Response
+     {
+
+
+39) /app/src/Controller/SubscriberController.php:24    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+     #[OA\Response(response: 200, description: 'Subscribe email to newsletters mailing list')]
+     #[OA\RequestBody(content: new Model(type: SubscriberRequest::class))]
+     #[OA\Response(response: 400, description: 'Return 400 error code if email exist', content: new Model(type: ErrorResponse::class))]
+-    #[OA\Response(response: 422, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
++    #[OA\Response(response: 423, description: 'Validation errors', content: new Model(type: ErrorResponse::class))]
+     #[Route(path: '/api/v1/subscribes', name: 'subscribes', methods: 'POST')]
+     public function subscribe(#[MapRequestPayload] SubscriberRequest $subscriberRequest) : Response
+     {
+
+
+40) /app/src/DataFixtures/BookCategoryFixture.php:16    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+     public const DEVICES_CATEGORY = 'devices';
+     public function load(ObjectManager $manager) : void
+     {
+-        $categorise = [static::DEVICES_CATEGORY => (new BookCategory())->setTitle('Devices')->setSlug('devices'), static::ANDROID_CATEGORY => (new BookCategory())->setTitle('Android')->setSlug('android')];
++        $categorise = [static::ANDROID_CATEGORY => (new BookCategory())->setTitle('Android')->setSlug('android')];
+         foreach ($categorise as $category) {
+             $manager->persist($category);
+         }
+
+
+41) /app/src/DataFixtures/BookCategoryFixture.php:17    [M] ArrayItem
+
+--- Original
++++ New
+@@ @@
+     public const DEVICES_CATEGORY = 'devices';
+     public function load(ObjectManager $manager) : void
+     {
+-        $categorise = [static::DEVICES_CATEGORY => (new BookCategory())->setTitle('Devices')->setSlug('devices'), static::ANDROID_CATEGORY => (new BookCategory())->setTitle('Android')->setSlug('android')];
++        $categorise = [static::DEVICES_CATEGORY > (new BookCategory())->setTitle('Devices')->setSlug('devices'), static::ANDROID_CATEGORY => (new BookCategory())->setTitle('Android')->setSlug('android')];
+         foreach ($categorise as $category) {
+             $manager->persist($category);
+         }
+
+
+42) /app/src/DataFixtures/BookCategoryFixture.php:18    [M] ArrayItem
+
+--- Original
++++ New
+@@ @@
+     public const DEVICES_CATEGORY = 'devices';
+     public function load(ObjectManager $manager) : void
+     {
+-        $categorise = [static::DEVICES_CATEGORY => (new BookCategory())->setTitle('Devices')->setSlug('devices'), static::ANDROID_CATEGORY => (new BookCategory())->setTitle('Android')->setSlug('android')];
++        $categorise = [static::DEVICES_CATEGORY => (new BookCategory())->setTitle('Devices')->setSlug('devices'), static::ANDROID_CATEGORY > (new BookCategory())->setTitle('Android')->setSlug('android')];
+         foreach ($categorise as $category) {
+             $manager->persist($category);
+         }
+
+
+43) /app/src/DataFixtures/BookCategoryFixture.php:21    [M] Foreach_
+
+--- Original
++++ New
+@@ @@
+     public function load(ObjectManager $manager) : void
+     {
+         $categorise = [static::DEVICES_CATEGORY => (new BookCategory())->setTitle('Devices')->setSlug('devices'), static::ANDROID_CATEGORY => (new BookCategory())->setTitle('Android')->setSlug('android')];
+-        foreach ($categorise as $category) {
++        foreach (array() as $category) {
+             $manager->persist($category);
+         }
+         $manager->persist((new BookCategory())->setTitle('Data')->setSlug('data'));
+
+
+44) /app/src/DataFixtures/BookCategoryFixture.php:22    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     {
+         $categorise = [static::DEVICES_CATEGORY => (new BookCategory())->setTitle('Devices')->setSlug('devices'), static::ANDROID_CATEGORY => (new BookCategory())->setTitle('Android')->setSlug('android')];
+         foreach ($categorise as $category) {
+-            $manager->persist($category);
++            
+         }
+         $manager->persist((new BookCategory())->setTitle('Data')->setSlug('data'));
+         $manager->persist((new BookCategory())->setTitle('IOS')->setSlug('ios'));
+
+
+45) /app/src/DataFixtures/BookCategoryFixture.php:25    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+         foreach ($categorise as $category) {
+             $manager->persist($category);
+         }
+-        $manager->persist((new BookCategory())->setTitle('Data')->setSlug('data'));
++        
+         $manager->persist((new BookCategory())->setTitle('IOS')->setSlug('ios'));
+         $manager->flush();
+         foreach ($categorise as $key => $category) {
+
+
+46) /app/src/DataFixtures/BookCategoryFixture.php:26    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+             $manager->persist($category);
+         }
+         $manager->persist((new BookCategory())->setTitle('Data')->setSlug('data'));
+-        $manager->persist((new BookCategory())->setTitle('IOS')->setSlug('ios'));
++        
+         $manager->flush();
+         foreach ($categorise as $key => $category) {
+             $this->addReference($key, $category);
+
+
+47) /app/src/DataFixtures/BookCategoryFixture.php:28    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+         }
+         $manager->persist((new BookCategory())->setTitle('Data')->setSlug('data'));
+         $manager->persist((new BookCategory())->setTitle('IOS')->setSlug('ios'));
+-        $manager->flush();
++        
+         foreach ($categorise as $key => $category) {
+             $this->addReference($key, $category);
+         }
+     }
+ }
+
+
+48) /app/src/DataFixtures/BookCategoryFixture.php:30    [M] Foreach_
+
+--- Original
++++ New
+@@ @@
+         $manager->persist((new BookCategory())->setTitle('Data')->setSlug('data'));
+         $manager->persist((new BookCategory())->setTitle('IOS')->setSlug('ios'));
+         $manager->flush();
+-        foreach ($categorise as $key => $category) {
++        foreach (array() as $key => $category) {
+             $this->addReference($key, $category);
+         }
+     }
+ }
+
+
+49) /app/src/DataFixtures/BookCategoryFixture.php:31    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+         $manager->persist((new BookCategory())->setTitle('IOS')->setSlug('ios'));
+         $manager->flush();
+         foreach ($categorise as $key => $category) {
+-            $this->addReference($key, $category);
++            
+         }
+     }
+ }
+
+
+50) /app/src/DataFixtures/BookFixture.php:19    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     {
+         $androidCategory = $this->getReference(name: BookCategoryFixture::ANDROID_CATEGORY);
+         $devicesCategory = $this->getReference(name: BookCategoryFixture::DEVICES_CATEGORY);
+-        $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bot', 'ChatBot'])->setImage('/public/default.png')->setIsbn('1234445555')->setDescription('Some Description')->setCategories(new ArrayCollection([$devicesCategory])));
++        
+         $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bots', 'ChatBot'])->setImage('/public/default1.png')->setCategories(new ArrayCollection([$androidCategory, $devicesCategory])));
+         $manager->flush();
+     }
+
+
+51) /app/src/DataFixtures/BookFixture.php:24    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+     {
+         $androidCategory = $this->getReference(name: BookCategoryFixture::ANDROID_CATEGORY);
+         $devicesCategory = $this->getReference(name: BookCategoryFixture::DEVICES_CATEGORY);
+-        $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bot', 'ChatBot'])->setImage('/public/default.png')->setIsbn('1234445555')->setDescription('Some Description')->setCategories(new ArrayCollection([$devicesCategory])));
++        $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['ChatBot'])->setImage('/public/default.png')->setIsbn('1234445555')->setDescription('Some Description')->setCategories(new ArrayCollection([$devicesCategory])));
+         $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bots', 'ChatBot'])->setImage('/public/default1.png')->setCategories(new ArrayCollection([$androidCategory, $devicesCategory])));
+         $manager->flush();
+     }
+
+
+52) /app/src/DataFixtures/BookFixture.php:28    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+     {
+         $androidCategory = $this->getReference(name: BookCategoryFixture::ANDROID_CATEGORY);
+         $devicesCategory = $this->getReference(name: BookCategoryFixture::DEVICES_CATEGORY);
+-        $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bot', 'ChatBot'])->setImage('/public/default.png')->setIsbn('1234445555')->setDescription('Some Description')->setCategories(new ArrayCollection([$devicesCategory])));
++        $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bot', 'ChatBot'])->setImage('/public/default.png')->setIsbn('1234445555')->setDescription('Some Description')->setCategories(new ArrayCollection([])));
+         $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bots', 'ChatBot'])->setImage('/public/default1.png')->setCategories(new ArrayCollection([$androidCategory, $devicesCategory])));
+         $manager->flush();
+     }
+
+
+53) /app/src/DataFixtures/BookFixture.php:31    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+         $androidCategory = $this->getReference(name: BookCategoryFixture::ANDROID_CATEGORY);
+         $devicesCategory = $this->getReference(name: BookCategoryFixture::DEVICES_CATEGORY);
+         $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bot', 'ChatBot'])->setImage('/public/default.png')->setIsbn('1234445555')->setDescription('Some Description')->setCategories(new ArrayCollection([$devicesCategory])));
+-        $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bots', 'ChatBot'])->setImage('/public/default1.png')->setCategories(new ArrayCollection([$androidCategory, $devicesCategory])));
++        
+         $manager->flush();
+     }
+     public function getDependencies() : array
+
+
+54) /app/src/DataFixtures/BookFixture.php:36    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+         $androidCategory = $this->getReference(name: BookCategoryFixture::ANDROID_CATEGORY);
+         $devicesCategory = $this->getReference(name: BookCategoryFixture::DEVICES_CATEGORY);
+         $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bot', 'ChatBot'])->setImage('/public/default.png')->setIsbn('1234445555')->setDescription('Some Description')->setCategories(new ArrayCollection([$devicesCategory])));
+-        $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bots', 'ChatBot'])->setImage('/public/default1.png')->setCategories(new ArrayCollection([$androidCategory, $devicesCategory])));
++        $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['ChatBot'])->setImage('/public/default1.png')->setCategories(new ArrayCollection([$androidCategory, $devicesCategory])));
+         $manager->flush();
+     }
+     public function getDependencies() : array
+
+
+55) /app/src/DataFixtures/BookFixture.php:38    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+         $androidCategory = $this->getReference(name: BookCategoryFixture::ANDROID_CATEGORY);
+         $devicesCategory = $this->getReference(name: BookCategoryFixture::DEVICES_CATEGORY);
+         $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bot', 'ChatBot'])->setImage('/public/default.png')->setIsbn('1234445555')->setDescription('Some Description')->setCategories(new ArrayCollection([$devicesCategory])));
+-        $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bots', 'ChatBot'])->setImage('/public/default1.png')->setCategories(new ArrayCollection([$androidCategory, $devicesCategory])));
++        $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bots', 'ChatBot'])->setImage('/public/default1.png')->setCategories(new ArrayCollection([$devicesCategory])));
+         $manager->flush();
+     }
+     public function getDependencies() : array
+
+
+56) /app/src/DataFixtures/BookFixture.php:41    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+         $devicesCategory = $this->getReference(name: BookCategoryFixture::DEVICES_CATEGORY);
+         $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bot', 'ChatBot'])->setImage('/public/default.png')->setIsbn('1234445555')->setDescription('Some Description')->setCategories(new ArrayCollection([$devicesCategory])));
+         $manager->persist((new Book())->setTitle('Lorem Ipsum')->setPublicationDate(new DateTimeImmutable(datetime: '2019-06-08'))->setSlug('lorem')->setAuthors(['Bots', 'ChatBot'])->setImage('/public/default1.png')->setCategories(new ArrayCollection([$androidCategory, $devicesCategory])));
+-        $manager->flush();
++        
+     }
+     public function getDependencies() : array
+     {
+
+
+57) /app/src/DataFixtures/BookFixture.php:46    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+     }
+     public function getDependencies() : array
+     {
+-        return [BookCategoryFixture::class];
++        return [];
+     }
+ }
+
+
+58) /app/src/Entity/Book.php:156    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->categories = $categories;
+         return $this;
+     }
+-    public function getIsbn() : ?string
++    protected function getIsbn() : ?string
+     {
+         return $this->isbn;
+     }
+
+
+59) /app/src/Entity/Book.php:192    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->formats = $formats;
+         return $this;
+     }
+-    public function getReviews() : Collection
++    protected function getReviews() : Collection
+     {
+         return $this->reviews;
+     }
+
+
+60) /app/src/Entity/Book.php:197    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->reviews;
+     }
+-    public function setReviews(Collection $reviews) : static
++    protected function setReviews(Collection $reviews) : static
+     {
+         $this->reviews = $reviews;
+         return $this;
+     }
+ }
+
+
+61) /app/src/Entity/BookRelationToBookFormat.php:31    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     #[ORM\ManyToOne(targetEntity: BookFormat::class, fetch: 'EAGER')]
+     #[ORM\JoinColumn(nullable: false)]
+     private BookFormat $format;
+-    public function getId() : ?int
++    protected function getId() : ?int
+     {
+         return $this->id;
+     }
+
+
+62) /app/src/Entity/BookRelationToBookFormat.php:60    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->discountPercent = $discountPercent;
+         return $this;
+     }
+-    public function getBook() : Book
++    protected function getBook() : Book
+     {
+         return $this->book;
+     }
+
+
+63) /app/src/Entity/BookRelationToBookFormat.php:65    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->book;
+     }
+-    public function setBook(Book $book) : static
++    protected function setBook(Book $book) : static
+     {
+         $this->book = $book;
+         return $this;
+
+
+64) /app/src/Entity/RefreshToken.php:85    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->valid = $valid;
+         return $this;
+     }
+-    public function getUser() : UserInterface
++    protected function getUser() : UserInterface
+     {
+         return $this->user;
+     }
+
+
+65) /app/src/Entity/RefreshToken.php:97    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->user = $user;
+         return $this;
+     }
+-    public function getCreatedAt() : DateTimeImmutable
++    protected function getCreatedAt() : DateTimeImmutable
+     {
+         return $this->createdAt;
+     }
+
+
+66) /app/src/Entity/RefreshToken.php:102    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->createdAt;
+     }
+-    public function setCreatedAt(DateTimeImmutable $createdAt) : static
++    protected function setCreatedAt(DateTimeImmutable $createdAt) : static
+     {
+         $this->createdAt = $createdAt;
+         return $this;
+
+
+67) /app/src/Entity/Review.php:94    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->createdAt = $createdAt;
+         return $this;
+     }
+-    public function getBook() : Book
++    protected function getBook() : Book
+     {
+         return $this->book;
+     }
+
+
+68) /app/src/Entity/Subscriber.php:33    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->createdAt = new DateTimeImmutable();
+         return $this;
+     }
+-    public function getId() : ?int
++    protected function getId() : ?int
+     {
+         return $this->id;
+     }
+
+
+69) /app/src/Entity/Subscriber.php:45    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->id = $id;
+         return $this;
+     }
+-    public function getEmail() : string
++    protected function getEmail() : string
+     {
+         return $this->email;
+     }
+
+
+70) /app/src/Entity/Subscriber.php:57    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->email = $email;
+         return $this;
+     }
+-    public function getCreatedAt() : DateTimeInterface
++    protected function getCreatedAt() : DateTimeInterface
+     {
+         return $this->createdAt;
+     }
+
+
+71) /app/src/Entity/Subscriber.php:62    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->createdAt;
+     }
+-    public function setCreatedAt(DateTimeInterface $createdAt) : static
++    protected function setCreatedAt(DateTimeInterface $createdAt) : static
+     {
+         $this->createdAt = $createdAt;
+         return $this;
+     }
+ }
+
+
+72) /app/src/Entity/User.php:39    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->id;
+     }
+-    public function getEmail() : ?string
++    protected function getEmail() : ?string
+     {
+         return $this->email;
+     }
+
+
+73) /app/src/Entity/User.php:51    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->email = $email;
+         return $this;
+     }
+-    public function getFirstName() : ?string
++    protected function getFirstName() : ?string
+     {
+         return $this->firstName;
+     }
+
+
+74) /app/src/Entity/User.php:63    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->firstName = $firstName;
+         return $this;
+     }
+-    public function getLastname() : ?string
++    protected function getLastname() : ?string
+     {
+         return $this->lastname;
+     }
+
+
+75) /app/src/Exception/BookNotFoundException.php:11    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = 'Book not found')
+     {
+-        parent::__construct($message);
++        
+     }
+ }
+
+
+76) /app/src/Exception/UserNotFoundException.php:11    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(string $message = 'User not found')
+     {
+-        parent::__construct($message);
++        
+     }
+ }
+
+
+77) /app/src/Listener/ApiExceptionListener.php:39    [M] TrueValue
+
+--- Original
++++ New
+@@ @@
+         }
+         $mapping = $this->exceptionMappingResolver->resolve(get_class($throwable));
+         if (!$mapping) {
+-            $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
++            $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: false, loggable: false);
+         }
+         if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
+             $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+
+
+78) /app/src/Listener/ApiExceptionListener.php:39    [M] FalseValue
+
+--- Original
++++ New
+@@ @@
+         }
+         $mapping = $this->exceptionMappingResolver->resolve(get_class($throwable));
+         if (!$mapping) {
+-            $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: false);
++            $mapping = new ExceptionMapping(code: Response::HTTP_INTERNAL_SERVER_ERROR, hidden: true, loggable: true);
+         }
+         if ($mapping->getCode() >= Response::HTTP_INTERNAL_SERVER_ERROR || $mapping->isLoggable()) {
+             $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'previous' => null !== $throwable->getPrevious() ? $throwable->getPrevious()->getMessage() : '']);
+
+
+79) /app/src/Model/BookDetails.php:29    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->id;
+     }
+-    public function setId(int $id) : static
++    protected function setId(int $id) : static
+     {
+         $this->id = $id;
+         return $this;
+
+
+80) /app/src/Model/BookDetails.php:41    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->title;
+     }
+-    public function setTitle(string $title) : static
++    protected function setTitle(string $title) : static
+     {
+         $this->title = $title;
+         return $this;
+
+
+81) /app/src/Model/BookDetails.php:53    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->slug;
+     }
+-    public function setSlug(string $slug) : static
++    protected function setSlug(string $slug) : static
+     {
+         $this->slug = $slug;
+         return $this;
+
+
+82) /app/src/Model/BookDetails.php:65    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->image;
+     }
+-    public function setImage(string $image) : static
++    protected function setImage(string $image) : static
+     {
+         $this->image = $image;
+         return $this;
+
+
+83) /app/src/Model/BookDetails.php:83    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     /**
+      * @param string[] $authors
+      */
+-    public function setAuthors(array $authors) : static
++    protected function setAuthors(array $authors) : static
+     {
+         $this->authors = $authors;
+         return $this;
+
+
+84) /app/src/Model/BookDetails.php:95    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->publicationDate;
+     }
+-    public function setPublicationDate(string $publicationDate) : static
++    protected function setPublicationDate(string $publicationDate) : static
+     {
+         $this->publicationDate = $publicationDate;
+         return $this;
+
+
+85) /app/src/Model/BookFormatListItem.php:14    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     private ?string $comment;
+     private float $price;
+     private ?int $discountPercent;
+-    public function getId() : int
++    protected function getId() : int
+     {
+         return $this->id;
+     }
+
+
+86) /app/src/Model/BookFormatListItem.php:26    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->id = $id;
+         return $this;
+     }
+-    public function getTitle() : string
++    protected function getTitle() : string
+     {
+         return $this->title;
+     }
+
+
+87) /app/src/Model/BookFormatListItem.php:38    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->title = $title;
+         return $this;
+     }
+-    public function getDescription() : ?string
++    protected function getDescription() : ?string
+     {
+         return $this->description;
+     }
+
+
+88) /app/src/Model/BookFormatListItem.php:50    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->description = $description;
+         return $this;
+     }
+-    public function getComment() : ?string
++    protected function getComment() : ?string
+     {
+         return $this->comment;
+     }
+
+
+89) /app/src/Model/BookFormatListItem.php:62    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->comment = $comment;
+         return $this;
+     }
+-    public function getPrice() : float
++    protected function getPrice() : float
+     {
+         return $this->price;
+     }
+
+
+90) /app/src/Model/BookFormatListItem.php:74    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->price = $price;
+         return $this;
+     }
+-    public function getDiscountPercent() : ?int
++    protected function getDiscountPercent() : ?int
+     {
+         return $this->discountPercent;
+     }
+
+
+91) /app/src/Model/BookListItem.php:23    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->id;
+     }
+-    public function setId(int $id) : static
++    protected function setId(int $id) : static
+     {
+         $this->id = $id;
+         return $this;
+
+
+92) /app/src/Model/BookListItem.php:35    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->title;
+     }
+-    public function setTitle(string $title) : static
++    protected function setTitle(string $title) : static
+     {
+         $this->title = $title;
+         return $this;
+
+
+93) /app/src/Model/BookListItem.php:47    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->slug;
+     }
+-    public function setSlug(string $slug) : static
++    protected function setSlug(string $slug) : static
+     {
+         $this->slug = $slug;
+         return $this;
+
+
+94) /app/src/Model/BookListItem.php:59    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->image;
+     }
+-    public function setImage(string $image) : static
++    protected function setImage(string $image) : static
+     {
+         $this->image = $image;
+         return $this;
+
+
+95) /app/src/Model/BookListItem.php:77    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     /**
+      * @param array<string> $authors
+      */
+-    public function setAuthors(array $authors) : static
++    protected function setAuthors(array $authors) : static
+     {
+         $this->authors = $authors;
+         return $this;
+
+
+96) /app/src/Model/BookListItem.php:89    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->publicationDate;
+     }
+-    public function setPublicationDate(string $publicationDate) : static
++    protected function setPublicationDate(string $publicationDate) : static
+     {
+         $this->publicationDate = $publicationDate;
+         return $this;
+     }
+ }
+
+
+97) /app/src/Model/ErrorDebugDetails.php:11    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private string $trace)
+     {
+     }
+-    public function getTrace() : string
++    protected function getTrace() : string
+     {
+         return $this->trace;
+     }
+ }
+
+
+98) /app/src/Model/IdResponse.php:11    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private int $id)
+     {
+     }
+-    public function getId() : int
++    protected function getId() : int
+     {
+         return $this->id;
+     }
+ }
+
+
+99) /app/src/Model/Recommendation/RecommendationResponse.php:15    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     )
+     {
+     }
+-    public function getId() : int
++    protected function getId() : int
+     {
+         return $this->id;
+     }
+
+
+100) /app/src/Model/Recommendation/RecommendationResponse.php:20    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->id;
+     }
+-    public function getTs() : int
++    protected function getTs() : int
+     {
+         return $this->ts;
+     }
+
+
+101) /app/src/Model/SignUpRequest.php:76    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->password = $password;
+         return $this;
+     }
+-    public function getConfirmPassword() : string
++    protected function getConfirmPassword() : string
+     {
+         return $this->confirmPassword;
+     }
+
+
+102) /app/src/Model/SubscriberRequest.php:25    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->email;
+     }
+-    public function isAgreed() : bool
++    protected function isAgreed() : bool
+     {
+         return $this->agreed;
+     }
+ }
+
+
+103) /app/src/Repository/BookFormatRepository.php:21    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(ManagerRegistry $registry)
+     {
+-        parent::__construct($registry, BookFormat::class);
++        
+     }
+ }
+
+
+104) /app/src/Repository/BookRelationToBookFormatRepository.php:21    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function __construct(ManagerRegistry $registry)
+     {
+-        parent::__construct($registry, BookRelationToBookFormat::class);
++        
+     }
+ }
+
+
+105) /app/src/Repository/UserRepository.php:35    [M] Throw_
+
+--- Original
++++ New
+@@ @@
+     {
+         $user = $this->find(['id' => $userId]);
+         if (!$user) {
+-            throw new UserNotFoundException('User not found');
++            new UserNotFoundException('User not found');
+         }
+         return $user;
+     }
+ }
+
+
+106) /app/src/Security/JWTUserProvider.php:32    [M] Identical
+
+--- Original
++++ New
+@@ @@
+     }
+     public function supportsClass(string $class) : bool
+     {
+-        return User::class === $class || is_subclass_of($class, User::class);
++        return User::class !== $class || is_subclass_of($class, User::class);
+     }
+     public function loadUserByIdentifier(string $identifier) : UserInterface
+     {
+
+
+107) /app/src/Security/JWTUserProvider.php:32    [M] LogicalOr
+
+--- Original
++++ New
+@@ @@
+     }
+     public function supportsClass(string $class) : bool
+     {
+-        return User::class === $class || is_subclass_of($class, User::class);
++        return User::class === $class && is_subclass_of($class, User::class);
+     }
+     public function loadUserByIdentifier(string $identifier) : UserInterface
+     {
+
+
+108) /app/src/Security/JWTUserProvider.php:32    [M] LogicalOrAllSubExprNegation
+
+--- Original
++++ New
+@@ @@
+     }
+     public function supportsClass(string $class) : bool
+     {
+-        return User::class === $class || is_subclass_of($class, User::class);
++        return !(User::class === $class) || !is_subclass_of($class, User::class);
+     }
+     public function loadUserByIdentifier(string $identifier) : UserInterface
+     {
+
+
+109) /app/src/Security/JWTUserProvider.php:32    [M] LogicalOrNegation
+
+--- Original
++++ New
+@@ @@
+     }
+     public function supportsClass(string $class) : bool
+     {
+-        return User::class === $class || is_subclass_of($class, User::class);
++        return !(User::class === $class || is_subclass_of($class, User::class));
+     }
+     public function loadUserByIdentifier(string $identifier) : UserInterface
+     {
+
+
+110) /app/src/Security/JWTUserProvider.php:32    [M] LogicalOrSingleSubExprNegation
+
+--- Original
++++ New
+@@ @@
+     }
+     public function supportsClass(string $class) : bool
+     {
+-        return User::class === $class || is_subclass_of($class, User::class);
++        return User::class === $class || !is_subclass_of($class, User::class);
+     }
+     public function loadUserByIdentifier(string $identifier) : UserInterface
+     {
+
+
+111) /app/src/Security/JWTUserProvider.php:54    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+         $user = $this->userRepository->findOneBy([$key => $value]);
+         if (null === $user) {
+             $e = new UserNotFoundException('User with id not found');
+-            $e->setUserIdentifier($value);
++            
+             throw $e;
+         }
+         return $user;
+     }
+ }
+
+
+112) /app/src/Security/JWTUserProvider.php:56    [M] Throw_
+
+--- Original
++++ New
+@@ @@
+         if (null === $user) {
+             $e = new UserNotFoundException('User with id not found');
+             $e->setUserIdentifier($value);
+-            throw $e;
++            $e;
+         }
+         return $user;
+     }
+ }
+
+
+113) /app/src/Service/BookService.php:76    [M] Throw_
+
+--- Original
++++ New
+@@ @@
+     {
+         $book = $this->bookRepository->find($id);
+         if (!$book) {
+-            throw new BookNotFoundException();
++            new BookNotFoundException();
+         }
+         $reviews = $this->reviewRepository->countByBook($id);
+         $formats = $book->getFormats()->map(func: function (BookRelationToBookFormat $formatJoin) {
+
+
+114) /app/src/Service/BookService.php:94    [M] NewObject
+
+--- Original
++++ New
+@@ @@
+             return (new BookFormatListItem())->setId($formatJoin->getFormat()->getId())->setTitle($formatJoin->getFormat()->getTitle())->setDescription($formatJoin->getFormat()->getDescription())->setComment($formatJoin->getFormat()->getComment())->setPrice($formatJoin->getPrice())->setDiscountPercent($formatJoin->getDiscountPercent());
+         });
+         $categories = $book->getCategories()->map(func: function (BookCategory $bookCategory) {
+-            return new BookCategoryListItem(id: $bookCategory->getId(), title: $bookCategory->getTitle(), slug: $bookCategory->getSlug());
++            new BookCategoryListItem(id: $bookCategory->getId(), title: $bookCategory->getTitle(), slug: $bookCategory->getSlug());
++            return null;
+         });
+         return BookMapper::map($book, BookDetails::class)->setReview($reviews)->setCategories($categories->toArray())->setFormats($formats->toArray())->setRating($this->ratingService->calcReview($id, $reviews));
+     }
+ }
