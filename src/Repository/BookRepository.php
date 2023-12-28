@@ -7,7 +7,6 @@ use App\Exception\BookNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\String\AbstractUnicodeString;
 
 /**
  * @extends ServiceEntityRepository<Book>
@@ -48,10 +47,10 @@ class BookRepository extends ServiceEntityRepository
     /**
      * @return Book[]
      */
-	public function findUsersBook(?UserInterface $user): array
-	{
+    public function findUsersBook(?UserInterface $user): array
+    {
         return $this->findBy(['user' => $user]);
-	}
+    }
 
     public function getUserBookById(int $id, ?UserInterface $user): Book
     {

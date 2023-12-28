@@ -34,6 +34,9 @@ class AbstractControllerTestCase extends WebTestCase
         $this->entityManager = null;
     }
 
+    /**
+     * @param string[] $roles
+     */
     protected function createUser(string $username, string $password, array $roles = []): User
     {
         $user = (new User())

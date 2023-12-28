@@ -15,7 +15,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id; /** @phpstan-ignore-line */
-
     #[ORM\Column(length: 150, unique: true)]
     private string $email;
 
@@ -28,8 +27,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 150)]
     private string $password;
 
+    /** @var array<string> */
     #[ORM\Column(type: 'simple_array')]
-    private array $roles; /** @phpstan-ignore-line */
+    private array $roles;
 
     public function getId(): ?int
     {

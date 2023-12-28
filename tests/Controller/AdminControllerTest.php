@@ -6,8 +6,8 @@ use App\Tests\AbstractControllerTestCase;
 
 class AdminControllerTest extends AbstractControllerTestCase
 {
-    public function testGrantAuthor()
-	{
+    public function testGrantAuthor(): void
+    {
         $username = 'test@gmail.com';
         $password = 'testTest';
 

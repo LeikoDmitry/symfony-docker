@@ -18,7 +18,7 @@ class RoleServiceTest extends AbstractTestCase
     {
         parent::setUp();
 
-        $this->user = new User;
+        $this->user = new User();
         $this->userRepository = $this->createMock(UserRepository::class);
         $this->userRepository
             ->expects($this->once())

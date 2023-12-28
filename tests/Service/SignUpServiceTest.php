@@ -30,11 +30,11 @@ class SignUpServiceTest extends AbstractTestCase
         $this->authenticationSuccessHandler = $this->createMock(AuthenticationSuccessHandler::class);
     }
 
-    public function testSignUpUserAlreadyExist()
-	{
+    public function testSignUpUserAlreadyExist(): void
+    {
         $this->expectException(UserAlreadyExistException::class);
 
-        $this->userRepository->expects($this->once())
+        $this->userRepository->expects($this->once()) /* @phpstan-ignore-line */
             ->method('existByEmail')
             ->with('test@email.ru')
             ->willReturn(true);
@@ -49,10 +49,10 @@ class SignUpServiceTest extends AbstractTestCase
         $service->signUp((new SignUpRequest())->setEmail('test@email.ru'));
     }
 
-    public function testSignUp()
+    public function testSignUp(): void
     {
         $response = new Response();
-        $expectedHasherUser =  $user = (new User())
+        $expectedHasherUser = $user = (new User())
             ->setRoles(['ROLE_USER'])
             ->setEmail('test@gmail.com')
             ->setLastname('test')
@@ -61,20 +61,20 @@ class SignUpServiceTest extends AbstractTestCase
         $expectedUser = clone $expectedHasherUser;
         $expectedUser->setPassword('hashPassword');
 
-        $this->userRepository->expects($this->once())
+        $this->userRepository->expects($this->once()) /* @phpstan-ignore-line */
             ->method('existByEmail')
             ->with('test@gmail.com')
             ->willReturn(false);
 
-        $this->passwordHasher->expects($this->once())
+        $this->passwordHasher->expects($this->once()) /* @phpstan-ignore-line */
             ->method('hashPassword')
             ->with($expectedHasherUser, 'testTest')
             ->willReturn('hashPassword');
 
-        $this->entityManager->expects($this->once())->method('persist')->with($expectedUser);
-        $this->entityManager->expects($this->once())->method('flush');
+        $this->entityManager->expects($this->once())->method('persist')->with($expectedUser); /* @phpstan-ignore-line */
+        $this->entityManager->expects($this->once())->method('flush'); /* @phpstan-ignore-line */
 
-        $this->authenticationSuccessHandler->expects($this->once())
+        $this->authenticationSuccessHandler->expects($this->once()) /* @phpstan-ignore-line */
             ->method('handleAuthenticationSuccess')
             ->with($expectedUser)
             ->willReturn($response);

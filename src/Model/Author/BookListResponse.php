@@ -2,8 +2,6 @@
 
 namespace App\Model\Author;
 
-use App\Model\BookListItem;
-
 readonly class BookListResponse
 {
     /**
