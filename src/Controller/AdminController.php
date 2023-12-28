@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-    public function __construct(private RoleService $roleService)
+    public function __construct(private readonly RoleService $roleService)
     {
     }
 

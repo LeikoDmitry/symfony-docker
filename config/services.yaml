@@ -8,6 +8,7 @@ parameters:
         Symfony\Component\HttpKernel\Exception\NotFoundHttpException: {code: 404, hidden: true, loggable: true}
         App\Exception\BookCategoryNotFoundException: {code: 404, hidden: false, loggable: false}
         App\Exception\BookNotFoundException: {code: 404, hidden: false, loggable: false}
+        App\Exception\BookAlreadyExistsException: {code: 409, hidden: false, loggable: false}
         App\Exception\SubscriberFoundException: {code: 400, hidden: false, loggable: false}
         App\Exception\UserAlreadyExistException: {code: 409, hidden: false, loggable: false}
         App\Exception\UserNotFoundException: {code: 404, hidden: false, loggable: false}
