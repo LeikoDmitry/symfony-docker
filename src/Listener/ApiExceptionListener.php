@@ -15,13 +15,13 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Throwable;
 
-class ApiExceptionListener
+readonly class ApiExceptionListener
 {
     public function __construct(
-        private readonly ExceptionMappingResolver $exceptionMappingResolver,
-        private readonly LoggerInterface $logger,
-        private readonly SerializerInterface $serializer,
-        private readonly bool $isDebug,
+        private ExceptionMappingResolver $exceptionMappingResolver,
+        private LoggerInterface $logger,
+        private SerializerInterface $serializer,
+        private bool $isDebug,
     ) {
     }
 

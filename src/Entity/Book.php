@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -37,6 +38,10 @@ class Book
 
     #[ORM\Column(type: 'date_immutable', nullable: true)]
     private ?DateTimeInterface $publicationDate = null;
+
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private UserInterface $user;
 
     /**
      * @var Collection<BookCategory>
@@ -197,6 +202,18 @@ class Book
     public function setReviews(Collection $reviews): static
     {
         $this->reviews = $reviews;
+
+        return $this;
+    }
+
+    public function getUser(): UserInterface
+    {
+        return $this->user;
+    }
+
+    public function setUser(UserInterface $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
