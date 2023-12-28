@@ -23,10 +23,10 @@ jobs:
           - 5432:5432
       hoverfly:
         image: spectolabs/hoverfly:v1.6.0
-        command:
-          - "-webserver"
-          - "-response-body-files-path=/hoverfly_app/responses"
-          - "-import=/hoverfly_app/simulations/recommend.simulation.json"
+#        command:
+#          - "-webserver"
+#          - "-response-body-files-path=/hoverfly_app/responses"
+#          - "-import=/hoverfly_app/simulations/recommend.simulation.json"
         volumes:
           - "$PWD/hoverfly:/hoverfly_app:ro"
         ports:
