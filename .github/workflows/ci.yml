@@ -21,6 +21,16 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+      hoverfly:
+        image: spectolabs/hoverfly:v1.6.0
+        command:
+          - "-webserver"
+          - "-response-body-files-path=/hoverfly_app/responses"
+          - "-import=/hoverfly_app/simulations/recommend.simulation.json"
+        volumes:
+          - "$PWD/hoverfly:/hoverfly_app:ro"
+        ports:
+          - "8500:8500"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
