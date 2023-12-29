@@ -49,8 +49,7 @@ readonly class ApiExceptionListener
             );
         }
 
-        //$message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
-        $message = $throwable->getMessage();
+        $message = $mapping->isHidden() ? Response::$statusTexts[$mapping->getCode()] : $throwable->getMessage();
         $details = $this->isDebug && !$mapping->isLoggable() ? new ErrorDebugDetails($throwable->getTraceAsString()) : null;
 
         $data = $this->serializer->serialize(data: new ErrorResponse($message, $details), format: JsonEncoder::FORMAT);

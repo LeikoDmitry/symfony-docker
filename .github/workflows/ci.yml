@@ -42,6 +42,8 @@ jobs:
         run: pecl install xdebug && docker-php-ext-enable xdebug
       - name: Install project dependencies
         run: composer install --prefer-dist && composer dump-autoload
+      - name: Generate public/private keys
+        run: php bin/console lexik:jwt:generate-keypair
       - name: Run doctrine migrations
         run: php bin/console doctrine:migrations:migrate --env=test --no-interaction
       - name: Load fixtures
