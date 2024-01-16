@@ -77,7 +77,6 @@ class AuthorController extends AbstractController
     #[OA\Tag(name: 'Author API')]
     #[OA\Response(response: 200, description: 'Upload book cover', content: new Model(type: UploadCoverResponse::class))]
     #[OA\Response(response: 422, description: 'Validation Error', content: new Model(type: ErrorResponse::class))]
-    #[OA\RequestBody(content: new Model(type: CoverFileRequest::class))]
     #[Route(path: '/api/v1/author/books/upload-cover/{$id}', name: 'author_books_cover', methods: 'POST')]
     public function uploadCover(int $id, #[MapRequestPayload] CoverFileRequest $coverFileRequest): Response
     {
