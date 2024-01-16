@@ -72,7 +72,7 @@ services:
       - "-response-body-files-path=/hoverfly_app/responses"
       - "-import=/hoverfly_app/simulations/recommend.simulation.json"
     volumes:
-      - "$PWD/hoverfly:/hoverfly_app:ro"
+      - "./hoverfly:/hoverfly_app:ro"
     ports:
       - "8500:8500"
 
