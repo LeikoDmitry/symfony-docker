@@ -6,20 +6,24 @@ use App\Entity\Book;
 use App\Exception\BookAlreadyExistsException;
 use App\Model\Author\BookListItem;
 use App\Model\Author\BookListResponse;
+use App\Model\Author\CoverFileRequest;
 use App\Model\Author\CreateBookRequest;
+use App\Model\Author\PublishBookRequest;
+use App\Model\Author\UploadCoverResponse;
 use App\Model\IdResponse;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class AuthorService
+readonly class AuthorService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private BookRepository $bookRepository,
         private SluggerInterface $slugger,
-        private Security $security
+        private Security $security,
+        private UploadedService $uploadedService,
     ) {
     }
 
@@ -57,6 +61,38 @@ class AuthorService
         $this->entityManager->flush();
 
         return new IdResponse(id: $book->getId());
+    }
+
+    public function publish(int $id, PublishBookRequest $publishBookRequest): void
+    {
+        $book = $this->bookRepository->getUserBookById($id,  $this->security->getUser());
+        $book->setPublicationDate($publishBookRequest->getDateTime());
+
+        $this->entityManager->persist($book);
+        $this->entityManager->flush();
+    }
+
+    public function unPublish(int $id): void
+    {
+        $book = $this->bookRepository->getUserBookById($id,  $this->security->getUser());
+        $book->setPublicationDate(null);
+
+        $this->entityManager->persist($book);
+        $this->entityManager->flush();
+    }
+
+    public function uploadCover(int $id, CoverFileRequest $coverFileRequest): UploadCoverResponse
+    {
+        $uploadedFile = $coverFileRequest->getCover();
+        $link = $this->uploadedService->uploadBookCover($id, $uploadedFile);
+
+        $book = $this->bookRepository->getUserBookById($id,  $this->security->getUser());
+        $book->setImage($link);
+
+        $this->entityManager->persist($book);
+        $this->entityManager->flush();
+
+        return new UploadCoverResponse(link: $link);
     }
 
     private function map(Book $book): BookListItem
