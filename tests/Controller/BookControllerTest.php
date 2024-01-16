@@ -161,6 +161,9 @@ class BookControllerTest extends AbstractControllerTestCase
         ]);
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testBooksByRecommendations(): void
     {
         $book = (new Book())
