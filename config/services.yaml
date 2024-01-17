@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    uploadDir: '%kernel.project_dir%/public/upload'
+    uploadDir: '%kernel.project_dir%/public/uploads/'
     exceptions:
         Symfony\Component\HttpKernel\Exception\NotFoundHttpException: {code: 404, hidden: true, loggable: true}
         App\Exception\BookCategoryNotFoundException: {code: 404, hidden: false, loggable: false}
@@ -17,6 +17,7 @@ parameters:
         Symfony\Component\Security\Core\Exception\AccessDeniedException: {code: 403, hidden: false, loggable: true}
         Doctrine\ORM\NonUniqueResultException: {code: 404, hidden: false, loggable: true}
         Doctrine\ORM\NoResultException: {code: 404, hidden: false, loggable: true}
+        App\Exception\ValidationException: {code: 422, hidden: false, loggable: true}
 
 services:
     # default configuration for services in *this* file

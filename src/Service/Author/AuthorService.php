@@ -6,7 +6,6 @@ use App\Entity\Book;
 use App\Exception\BookAlreadyExistsException;
 use App\Model\Author\BookListItem;
 use App\Model\Author\BookListResponse;
-use App\Model\Author\CoverFileRequest;
 use App\Model\Author\CreateBookRequest;
 use App\Model\Author\PublishBookRequest;
 use App\Model\Author\UploadCoverResponse;
@@ -14,6 +13,7 @@ use App\Model\IdResponse;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 readonly class AuthorService
@@ -81,9 +81,8 @@ readonly class AuthorService
         $this->entityManager->flush();
     }
 
-    public function uploadCover(int $id, CoverFileRequest $coverFileRequest): UploadCoverResponse
+    public function uploadCover(int $id, UploadedFile $uploadedFile): UploadCoverResponse
     {
-        $uploadedFile = $coverFileRequest->getCover();
         $link = $this->uploadedService->uploadBookCover($id, $uploadedFile);
 
         $book = $this->bookRepository->getUserBookById($id,  $this->security->getUser());

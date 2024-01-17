@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Attribute\RequestFile;
 use App\Model\Author\BookListResponse;
 use App\Model\Author\CoverFileRequest;
 use App\Model\Author\CreateBookRequest;
@@ -12,9 +13,12 @@ use App\Service\Author\AuthorService;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class AuthorController extends AbstractController
 {
@@ -55,7 +59,7 @@ class AuthorController extends AbstractController
     #[OA\Response(response: 200, description: 'Publish a book')]
     #[OA\Response(response: 422, description: 'Validation Error', content: new Model(type: ErrorResponse::class))]
     #[OA\RequestBody(content: new Model(type: PublishBookRequest::class))]
-    #[Route(path: '/api/v1/author/books/publish/{$id}', name: 'author_books_publish', methods: 'POST')]
+    #[Route(path: '/api/v1/author/books/publish/{id}', name: 'author_books_publish', methods: 'POST')]
     public function publish(int $id, #[MapRequestPayload] PublishBookRequest $bookRequest): Response
     {
         $this->authorService->publish(id: $id, publishBookRequest: $bookRequest);
@@ -66,7 +70,7 @@ class AuthorController extends AbstractController
     #[OA\Tag(name: 'Author API')]
     #[OA\Response(response: 200, description: 'Un publish a book')]
     #[OA\Response(response: 422, description: 'Validation Error', content: new Model(type: ErrorResponse::class))]
-    #[Route(path: '/api/v1/author/books/un-publish/{$id}', name: 'author_books_un_publish', methods: 'POST')]
+    #[Route(path: '/api/v1/author/books/un-publish/{id}', name: 'author_books_un_publish', methods: 'POST')]
     public function unPublish(int $id): Response
     {
         $this->authorService->unPublish(id: $id);
@@ -77,10 +81,13 @@ class AuthorController extends AbstractController
     #[OA\Tag(name: 'Author API')]
     #[OA\Response(response: 200, description: 'Upload book cover', content: new Model(type: UploadCoverResponse::class))]
     #[OA\Response(response: 422, description: 'Validation Error', content: new Model(type: ErrorResponse::class))]
-    #[Route(path: '/api/v1/author/books/upload-cover/{$id}', name: 'author_books_cover', methods: 'POST')]
-    public function uploadCover(int $id, #[MapRequestPayload] CoverFileRequest $coverFileRequest): Response
+    #[Route(path: '/api/v1/author/books/upload-cover/{id}', name: 'author_books_cover', methods: 'POST')]
+    public function uploadCover(int $id, #[RequestFile(field: 'cover', constraints: [
+        new NotNull(),
+        new Image(maxSize: '1M', mimeTypes: ['image/jpeg', 'image/png', 'image/jpg'])
+    ])] UploadedFile $uploadedFile): Response
     {
-        $response = $this->authorService->uploadCover(id: $id, coverFileRequest: $coverFileRequest);
+        $response = $this->authorService->uploadCover(id: $id, uploadedFile: $uploadedFile);
 
         return $this->json($response);
     }
