@@ -3,6 +3,8 @@ version: "3.4"
 # Production environment override
 services:
   php:
+    env_file:
+      - .env.prod.local
     build:
       context: .
       target: frankenphp_prod

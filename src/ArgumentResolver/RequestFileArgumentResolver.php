@@ -3,11 +3,11 @@
 namespace App\ArgumentResolver;
 
 use App\Attribute\RequestFile;
-use App\Exception\ValidationException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RequestFileArgumentResolver implements ValueResolverInterface
@@ -27,7 +27,7 @@ class RequestFileArgumentResolver implements ValueResolverInterface
         $errors = $this->validator->validate($uploadedFile, $attribute->getConstraints());
 
         if (count($errors) > 0) {
-            throw new ValidationException($errors);
+            throw new ValidationFailedException($attribute->getField(), $errors);
         }
 
         yield $uploadedFile;
