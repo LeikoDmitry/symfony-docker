@@ -198,5 +198,7 @@ class BookControllerTest extends AbstractControllerTestCase
                 ],
             ],
         ]);
+
+        $this->markTestSkipped('Hoverfly service invaluable.');
     }
 }
