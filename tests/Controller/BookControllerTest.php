@@ -163,6 +163,7 @@ class BookControllerTest extends AbstractControllerTestCase
 
     public function testBooksByRecommendations(): void
     {
+        $this->markTestSkipped('Hoverfly service invaluable.');
         $book = (new Book())
             ->setTitle('test')
             ->setSlug('test')
@@ -198,7 +199,5 @@ class BookControllerTest extends AbstractControllerTestCase
                 ],
             ],
         ]);
-
-        $this->markTestSkipped('Hoverfly service invaluable.');
     }
 }
