@@ -3,6 +3,7 @@
 namespace App\Tests\Listener;
 
 use App\Listener\ApiExceptionListener;
+use App\Model\ErrorDebugDetails;
 use App\Model\ErrorResponse;
 use App\Service\ExceptionHandler\ExceptionMapping;
 use App\Service\ExceptionHandler\ExceptionMappingResolver;
@@ -26,7 +27,7 @@ class ApiExceptionListenerTest extends AbstractTestCase
     public function testNone500MappingWithHiddenMessage(): void
     {
         $mapping = new ExceptionMapping(code: Response::HTTP_NOT_FOUND, hidden: true, loggable: false);
-        $message = Response::$statusTexts[$mapping->getCode()];
+        $message = 'Test';
         $body = json_encode(['error' => $message]);
 
         $resolver = $this->createMock(ExceptionMappingResolver::class);
@@ -39,12 +40,12 @@ class ApiExceptionListenerTest extends AbstractTestCase
         $serializer = $this->createMock(SerializerInterface::class);
         $serializer->expects($this->once())
             ->method('serialize')
-            ->with(new ErrorResponse($message), JsonEncoder::FORMAT)
+            ->with(new ErrorResponse($message, new ErrorDebugDetails('Test')), JsonEncoder::FORMAT)
             ->willReturn($body);
 
         $event = $this->createEvent(new InvalidArgumentException('Test'));
 
-        $listener = new ApiExceptionListener($resolver, $logger, $serializer, false);
+        $listener = new ApiExceptionListener($resolver, $logger, $serializer);
         $listener($event);
 
         $response = $event->getResponse();

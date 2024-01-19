@@ -29,13 +29,13 @@ class SubscriberControllerTest extends AbstractControllerTestCase
         $content = json_decode($this->kernelBrowser->getResponse()->getContent());
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $details = new \stdClass();
+        $details->trace = 'This value should be of type unknown.';
+
         $this->assertJsonDocumentMatches($content, [
-            '$.message' => sprintf(
-                'This value should be of type unknown.%sThis value should not be blank.%sThis value should not be blank.',
-                PHP_EOL,
-                PHP_EOL
-            ),
-            '$.details' => null,
+            '$.message' => 'This value should be of type unknown.',
+            '$.details' => $details
         ]);
     }
 }
