@@ -14,10 +14,9 @@ class RequestFileArgumentResolver implements ValueResolverInterface
 {
     public function __construct(private ValidatorInterface $validator)
     {
-
     }
 
-    public function resolve(Request $request, ArgumentMetadata $argument): iterable
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable /* @phpstan-ignore-line */
     {
         /** @var RequestFile $attribute */
         $attribute = $argument->getAttributes(RequestFile::class, ArgumentMetadata::IS_INSTANCEOF)[0] ?? new RequestFile('');

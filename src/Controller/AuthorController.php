@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Attribute\RequestFile;
 use App\Model\Author\BookListResponse;
-use App\Model\Author\CoverFileRequest;
 use App\Model\Author\CreateBookRequest;
 use App\Model\Author\PublishBookRequest;
 use App\Model\Author\UploadCoverResponse;
@@ -84,7 +83,7 @@ class AuthorController extends AbstractController
     #[Route(path: '/api/v1/author/books/upload-cover/{id}', name: 'author_books_cover', methods: 'POST')]
     public function uploadCover(int $id, #[RequestFile(field: 'cover', constraints: [
         new NotNull(),
-        new Image(maxSize: '1M', mimeTypes: ['image/jpeg', 'image/png', 'image/jpg'])
+        new Image(maxSize: '1M', mimeTypes: ['image/jpeg', 'image/png', 'image/jpg']),
     ])] UploadedFile $uploadedFile): Response
     {
         $response = $this->authorService->uploadCover(id: $id, uploadedFile: $uploadedFile);

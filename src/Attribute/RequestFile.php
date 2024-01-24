@@ -13,8 +13,8 @@ readonly class RequestFile
      */
     public function __construct(private string $field, private array $constraints = [])
     {
-
     }
+
     public function getField(): string
     {
         return $this->field;

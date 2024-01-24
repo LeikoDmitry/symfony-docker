@@ -65,7 +65,7 @@ readonly class AuthorService
 
     public function publish(int $id, PublishBookRequest $publishBookRequest): void
     {
-        $book = $this->bookRepository->getUserBookById($id,  $this->security->getUser());
+        $book = $this->bookRepository->getUserBookById($id, $this->security->getUser());
         $book->setPublicationDate($publishBookRequest->getDateTime());
 
         $this->entityManager->persist($book);
@@ -74,7 +74,7 @@ readonly class AuthorService
 
     public function unPublish(int $id): void
     {
-        $book = $this->bookRepository->getUserBookById($id,  $this->security->getUser());
+        $book = $this->bookRepository->getUserBookById($id, $this->security->getUser());
         $book->setPublicationDate(null);
 
         $this->entityManager->persist($book);
@@ -85,7 +85,7 @@ readonly class AuthorService
     {
         $link = $this->uploadedService->uploadBookCover($id, $uploadedFile);
 
-        $book = $this->bookRepository->getUserBookById($id,  $this->security->getUser());
+        $book = $this->bookRepository->getUserBookById($id, $this->security->getUser());
         $book->setImage($link);
 
         $this->entityManager->persist($book);

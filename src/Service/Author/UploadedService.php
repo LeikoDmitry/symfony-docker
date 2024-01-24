@@ -13,11 +13,11 @@ readonly class UploadedService
 
     public function uploadBookCover(int $id, UploadedFile $uploadedFile): string
     {
-        $unique = Uuid::v4()->toRfc4122() . '.' . $uploadedFile->guessExtension() ?? 'png';
-        $uploadPath = $this->uploadDir . 'book' . DIRECTORY_SEPARATOR . $id;
+        $unique = Uuid::v4()->toRfc4122().'.'.$uploadedFile->guessExtension();
+        $uploadPath = $this->uploadDir.'book'.DIRECTORY_SEPARATOR.$id;
 
         $uploadedFile->move($uploadPath, $unique);
 
-        return $uploadPath . DIRECTORY_SEPARATOR . $unique;
+        return $uploadPath.DIRECTORY_SEPARATOR.$unique;
     }
 }
