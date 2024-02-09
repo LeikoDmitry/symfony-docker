@@ -3,14 +3,10 @@
 namespace App\Service;
 
 use App\Entity\Book;
-use App\Entity\BookCategory;
-use App\Entity\BookRelationToBookFormat;
 use App\Exception\BookCategoryNotFoundException;
 use App\Exception\BookNotFoundException;
 use App\Mapper\BookMapper;
-use App\Model\BookCategoryListItem;
 use App\Model\BookDetails;
-use App\Model\BookFormatListItem;
 use App\Model\BookListItem;
 use App\Model\BookListRecommendationResponse;
 use App\Model\BookListResponse;
@@ -77,30 +73,13 @@ readonly class BookService
         }
 
         $reviews = $this->reviewRepository->countByBook($id);
-
-        $formats = $book->getFormats()
-            ->map(func: function (BookRelationToBookFormat $formatJoin) {
-                return (new BookFormatListItem())
-                    ->setId($formatJoin->getFormat()->getId())
-                    ->setTitle($formatJoin->getFormat()->getTitle())
-                    ->setDescription($formatJoin->getFormat()->getDescription())
-                    ->setComment($formatJoin->getFormat()->getComment())
-                    ->setPrice($formatJoin->getPrice())
-                    ->setDiscountPercent($formatJoin->getDiscountPercent());
-            });
-
-        $categories = $book->getCategories()
-            ->map(func: function (BookCategory $bookCategory) {
-                return new BookCategoryListItem(
-                    id: $bookCategory->getId(),
-                    title: $bookCategory->getTitle(),
-                    slug: $bookCategory->getSlug());
-            });
+        $formats = BookMapper::mapFormats($book);
+        $categories = BookMapper::mapCategories($book);
 
         return BookMapper::map($book, BookDetails::class)
             ->setReview($reviews)
-            ->setCategories($categories->toArray())
-            ->setFormats($formats->toArray())
+            ->setCategories($categories)
+            ->setFormats($formats)
             ->setRating($this->ratingService->calcReview($id, $reviews)
             );
     }

@@ -20,4 +20,9 @@ class BookCategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, BookCategory::class);
     }
+
+    public function findBookCategoriesByIds(array $ids): array
+    {
+        return $this->findBy(['id' => $ids]);
+    }
 }

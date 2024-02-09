@@ -6,6 +6,7 @@ use App\Attribute\RequestFile;
 use App\Model\Author\BookListResponse;
 use App\Model\Author\CreateBookRequest;
 use App\Model\Author\PublishBookRequest;
+use App\Model\Author\UpdateBookRequest;
 use App\Model\Author\UploadCoverResponse;
 use App\Model\ErrorResponse;
 use App\Service\Author\AuthorService;
@@ -50,6 +51,17 @@ class AuthorController extends AbstractController
     public function deleteBook(int $id): Response
     {
         $this->authorService->deleteBook($id);
+
+        return $this->json(null);
+    }
+
+    #[OA\Tag(name: 'Author API')]
+    #[OA\Response(response: 200, description: 'Update a book')]
+    #[OA\Response(response: 404, description: 'Book not found', content: new Model(type: ErrorResponse::class))]
+    #[Route(path: '/api/v1/author/books/{id}', name: 'author_books_update', methods: 'POST')]
+    public function updateBook(int $id, #[MapRequestPayload] UpdateBookRequest $updateBookRequest): Response
+    {
+        $this->authorService->updateBook($id, $updateBookRequest);
 
         return $this->json(null);
     }
